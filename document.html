@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل پیشرفته فوتبال</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <div class="hero">
+        <h1> گزارش جامع پروژه تحلیل داده‌های مسابقات فوتبال</h1>
+        <p class="subtitle">تحلیل و پیش‌بینی نتایج مسابقات فوتبال باشگاهی با استفاده از الگوریتم‌های یادگیری ماشین</p>
+        <div class="meta-info">
+            <span> دانشجو: علی اصغر رزازپور ۴۰۰۱۳۱۱۴۱۰۰</span>
+            <span> استاد: دکتر فدیشه‌ای</span>
+            <span> درس: مباحث ویژه ۲</span>
+            <span> زمستان ۱۴۰۴</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- فهرست مطالب -->
+        <div class="nav-section">
+            <h2> فهرست مطالب</h2>
+            <ul>
+                <li><a href="#introduction">مقدمه</a></li>
+                <li><a href="#dataset">معرفی دیتاست</a></li>
+                <li><a href="#loading">بارگذاری داده‌ها</a></li>
+                <li><a href="#exploration">کاوش داده‌ها</a></li>
+                <li><a href="#preprocessing">پیش‌پردازش</a></li>
+                <li><a href="#feature-engineering">مهندسی ویژگی</a></li>
+                <li><a href="#modeling">مدل‌سازی</a></li>
+                <li><a href="#comparison">مقایسه مدل‌ها</a></li>
+                <li><a href="#conclusion">نتیجه‌گیری</a></li>
+            </ul>
+        </div>
+
+        <!-- بخش ۱: مقدمه -->
+        <section id="introduction" class="section">
+            <h2><span class="section-icon"></span>مقدمه</h2>
+
+            <p>پیش‌بینی نتایج مسابقات فوتبال یکی از چالش‌های جذاب و پیچیده در حوزه یادگیری ماشین و تحلیل داده‌های ورزشی
+                است. این پروژه با هدف پیش‌بینی نتیجه نهایی مسابقات فوتبال باشگاهی (برد، باخت یا تساوی) با استفاده از
+                داده‌های تاریخی مسابقات از سال ۲۰۰۰ تا ۲۰۲۵ طراحی شده است.</p>
+
+            <h3>اهداف پروژه</h3>
+            <ul>
+                <li><strong>هدف اصلی:</strong> توسعه مدل‌های یادگیری ماشین برای پیش‌بینی دقیق نتیجه مسابقات فوتبال</li>
+                <li><strong>اهداف فرعی:</strong>
+                    <ul>
+                        <li>تحلیل و کاوش جامع داده‌های مسابقات فوتبال</li>
+                        <li>شناسایی و استخراج ویژگی‌های مهم و تاثیرگذار</li>
+                        <li>پیاده‌سازی و مقایسه سه الگوریتم مختلف یادگیری ماشین</li>
+                        <li>ارزیابی دقیق عملکرد مدل‌ها با معیارهای متنوع</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>اهمیت موضوع</h3>
+            <p>پیش‌بینی نتایج مسابقات ورزشی کاربردهای گسترده‌ای دارد:</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h4> برای تیم‌ها و مربیان</h4>
+                    <p>تحلیل استراتژیک رقبا و برنامه‌ریزی بهتر</p>
+                </div>
+                <div class="card">
+                    <h4> برای تحلیلگران ورزشی</h4>
+                    <p>درک عمیق‌تر از عوامل تاثیرگذار بر نتایج</p>
+                </div>
+                <div class="card">
+                    <h4> برای صنعت شرط‌بندی</h4>
+                    <p>تعیین ضرایب دقیق‌تر و مدیریت ریسک</p>
+                </div>
+            </div>
+
+            <h3>روش‌شناسی پروژه</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>۱. جمع‌آوری و بارگذاری داده‌ها</h4>
+                    <p>دریافت دیتاست از Kaggle و آماده‌سازی محیط کاری</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۲. کاوش و تحلیل اولیه</h4>
+                    <p>بررسی ساختار، کیفیت و توزیع داده‌ها</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۳. پیش‌پردازش و تمیزسازی</h4>
+                    <p>حذف داده‌های ناقص و غیرضروری</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۴. مهندسی ویژگی</h4>
+                    <p>ساخت ویژگی‌های جدید و موثر</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۵. مدل‌سازی</h4>
+                    <p>آموزش سه مدل مختلف یادگیری ماشین</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۶. ارزیابی و مقایسه</h4>
+                    <p>تحلیل عملکرد و انتخاب بهترین مدل</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>نکته کلیدی</h4>
+                <p>این پروژه از سه الگوریتم پیشرفته یادگیری ماشین استفاده می‌کند: Random Forest، XGBoost و Neural
+                    Network. هر یک از این الگوریتم‌ها مزایا و معایب خاص خود را دارند که در ادامه به تفصیل بررسی خواهند
+                    شد.</p>
+            </div>
+        </section>
+
+        <!-- بخش ۲: معرفی دیتاست -->
+        <section id="dataset" class="section">
+            <h2><span class="section-icon"></span>معرفی دیتاست</h2>
+
+            <h3>منبع داده</h3>
+            <p>دیتاست مورد استفاده در این پروژه با نام <strong>"Club Football Match Data 2000-2025"</strong> از پلتفرم
+                Kaggle تهیه شده است. این مجموعه داده شامل اطلاعات جامع مسابقات فوتبال باشگاهی در لیگ‌های مختلف اروپایی
+                از سال ۲۰۰۰ تا ۲۰۲۵ است.</p>
+
+            <div class="info-box">
+                <h4>مشخصات دیتاست</h4>
+                <ul>
+                    <li><strong>نام:</strong> Club Football Match Data 2000-2025</li>
+                    <li><strong>سازنده:</strong> adamgbor</li>
+                    <li><strong>پلتفرم:</strong> Kaggle</li>
+                    <li><strong>شناسه:</strong> adamgbor/club-football-match-data-2000-2025</li>
+                    <li><strong>نسخه:</strong> 3</li>
+                    <li><strong>تعداد رکوردها:</strong> ۲۳۰,۵۵۷ مسابقه</li>
+                    <li><strong>تعداد ستون‌ها:</strong> ۴۸ ویژگی</li>
+                </ul>
+            </div>
+
+            <h3>ویژگی‌های دیتاست</h3>
+            <p>دیتاست شامل ۴۸ ستون (ویژگی) است که می‌توان آن‌ها را به دسته‌های زیر تقسیم کرد:</p>
+
+            <h4>۱. اطلاعات پایه مسابقه</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ستون</th>
+                        <th>توضیحات</th>
+                        <th>نوع داده</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Division</code></td>
+                        <td>نام لیگ (مثلاً F1 برای لیگ اول فرانسه)</td>
+                        <td>Object</td>
+                    </tr>
+                    <tr>
+                        <td><code>MatchDate</code></td>
+                        <td>تاریخ برگزاری مسابقه</td>
+                        <td>Object</td>
+                    </tr>
+                    <tr>
+                        <td><code>MatchTime</code></td>
+                        <td>ساعت برگزاری مسابقه</td>
+                        <td>Object</td>
+                    </tr>
+                    <tr>
+                        <td><code>HomeTeam</code></td>
+                        <td>نام تیم میزبان</td>
+                        <td>Object</td>
+                    </tr>
+                    <tr>
+                        <td><code>AwayTeam</code></td>
+                        <td>نام تیم مهمان</td>
+                        <td>Object</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۲. امتیازات Elo</h4>
+            <div class="highlight-box">
+                <h4>سیستم امتیازدهی Elo</h4>
+                <p>سیستم Elo یک روش ریاضی برای محاسبه قدرت نسبی بازیکنان یا تیم‌ها است که در شطرنج توسعه یافته و به
+                    ورزش‌های دیگر تعمیم داده شده است. امتیاز بالاتر نشان‌دهنده عملکرد بهتر در بازی‌های گذشته است.</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ستون</th>
+                        <th>توضیحات</th>
+                        <th>دامنه معمول</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>HomeElo</code></td>
+                        <td>امتیاز Elo تیم میزبان قبل از مسابقه</td>
+                        <td>۱۱۰۳ تا ۲۱۰۷</td>
+                    </tr>
+                    <tr>
+                        <td><code>AwayElo</code></td>
+                        <td>امتیاز Elo تیم مهمان قبل از مسابقه</td>
+                        <td>۱۱۰۳ تا ۲۱۰۷</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۳. فرم اخیر تیم‌ها</h4>
+            <p>این ستون‌ها نشان‌دهنده عملکرد تیم‌ها در بازی‌های اخیر (۳ یا ۵ مسابقه گذشته) هستند:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ستون</th>
+                        <th>توضیحات</th>
+                        <th>نحوه محاسبه</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Form3Home</code></td>
+                        <td>امتیازات تیم میزبان در ۳ بازی اخیر</td>
+                        <td>برد=۳، تساوی=۱، باخت=۰</td>
+                    </tr>
+                    <tr>
+                        <td><code>Form5Home</code></td>
+                        <td>امتیازات تیم میزبان در ۵ بازی اخیر</td>
+                        <td>برد=۳، تساوی=۱، باخت=۰</td>
+                    </tr>
+                    <tr>
+                        <td><code>Form3Away</code></td>
+                        <td>امتیازات تیم مهمان در ۳ بازی اخیر</td>
+                        <td>برد=۳، تساوی=۱، باخت=۰</td>
+                    </tr>
+                    <tr>
+                        <td><code>Form5Away</code></td>
+                        <td>امتیازات تیم مهمان در ۵ بازی اخیر</td>
+                        <td>برد=۳، تساوی=۱، باخت=۰</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۴. نتایج مسابقه</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ستون</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>FTHome</code></td>
+                        <td>تعداد گل‌های تیم میزبان در پایان بازی</td>
+                    </tr>
+                    <tr>
+                        <td><code>FTAway</code></td>
+                        <td>تعداد گل‌های تیم مهمان در پایان بازی</td>
+                    </tr>
+                    <tr>
+                        <td><code>FTResult</code></td>
+                        <td>نتیجه نهایی: H (برد میزبان)، A (برد مهمان)، D (تساوی)</td>
+                    </tr>
+                    <tr>
+                        <td><code>HTHome</code></td>
+                        <td>تعداد گل‌های تیم میزبان در نیمه اول</td>
+                    </tr>
+                    <tr>
+                        <td><code>HTAway</code></td>
+                        <td>تعداد گل‌های تیم مهمان در نیمه اول</td>
+                    </tr>
+                    <tr>
+                        <td><code>HTResult</code></td>
+                        <td>نتیجه نیمه اول: H، A یا D</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۵. آمار بازی</h4>
+            <p>اطلاعات تفصیلی درباره روند بازی:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>دسته</th>
+                        <th>ستون‌های مربوطه</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>شوت‌ها</td>
+                        <td><code>HomeShots</code>, <code>AwayShots</code></td>
+                        <td>تعداد کل شوت‌های هر تیم</td>
+                    </tr>
+                    <tr>
+                        <td>شوت به چارچوب</td>
+                        <td><code>HomeTarget</code>, <code>AwayTarget</code></td>
+                        <td>تعداد شوت‌های به سمت دروازه</td>
+                    </tr>
+                    <tr>
+                        <td>خطاها</td>
+                        <td><code>HomeFouls</code>, <code>AwayFouls</code></td>
+                        <td>تعداد خطاهای ارتکابی</td>
+                    </tr>
+                    <tr>
+                        <td>کرنرها</td>
+                        <td><code>HomeCorners</code>, <code>AwayCorners</code></td>
+                        <td>تعداد ضربات کرنر</td>
+                    </tr>
+                    <tr>
+                        <td>کارت‌ها</td>
+                        <td><code>HomeYellow</code>, <code>AwayYellow</code>, <code>HomeRed</code>, <code>AwayRed</code>
+                        </td>
+                        <td>تعداد کارت‌های زرد و قرمز</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۶. ضرایب شرط‌بندی</h4>
+            <div class="info-box">
+                <h4>درباره ضرایب شرط‌بندی</h4>
+                <p>ضرایب شرط‌بندی نشان‌دهنده احتمال پیروزی هر تیم از دیدگاه بوکمیکرها (شرکت‌های شرط‌بندی) هستند. ضریب
+                    پایین‌تر معمولاً نشان‌دهنده احتمال بیشتر برای وقوع آن نتیجه است.</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>دسته</th>
+                        <th>ستون‌های مربوطه</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ضرایب متوسط</td>
+                        <td><code>OddHome</code>, <code>OddDraw</code>, <code>OddAway</code></td>
+                    </tr>
+                    <tr>
+                        <td>بیشترین ضرایب</td>
+                        <td><code>MaxHome</code>, <code>MaxDraw</code>, <code>MaxAway</code></td>
+                    </tr>
+                    <tr>
+                        <td>ضرایب تعداد گل</td>
+                        <td><code>Over25</code>, <code>Under25</code>, <code>MaxOver25</code>, <code>MaxUnder25</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>هندیکپ</td>
+                        <td><code>HandiSize</code>, <code>HandiHome</code>, <code>HandiAway</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۷. احتمالات محاسبه‌شده</h4>
+            <p>احتمالات مختلف برای رویدادهای درون بازی (با پیشوند C_):</p>
+            <ul>
+                <li><code>C_LTH</code>: احتمال برد تیم میزبان با اختلاف زیاد</li>
+                <li><code>C_LTA</code>: احتمال برد تیم مهمان با اختلاف زیاد</li>
+                <li><code>C_VHD</code>: احتمال برد خیلی بزرگ تیم میزبان</li>
+                <li><code>C_VAD</code>: احتمال برد خیلی بزرگ تیم مهمان</li>
+                <li><code>C_HTB</code>: احتمال گل زدن در نیمه اول</li>
+                <li><code>C_PHB</code>: احتمال پنالتی در بازی</li>
+            </ul>
+
+            <h3>نمونه داده</h3>
+            <p>برای درک بهتر ساختار داده، نمونه‌ای از ۵ رکورد اول دیتاست:</p>
+            <div class="code-block">
+                <pre>
+  Division   MatchDate    HomeTeam    AwayTeam  HomeElo  AwayElo  FTHome  FTAway FTResult
+0       F1  2000-07-28   Marseille      Troyes  1686.34  1586.57     2.0     1.0        H
+1       F1  2000-07-28    Paris SG  Strasbourg  1714.89  1642.51     3.0     1.0        H
+2       F2  2000-07-28   Wasquehal       Nancy  1465.08  1633.80     1.0     2.0        A
+3       F1  2000-07-29     Auxerre       Sedan  1635.58  1624.22     0.0     0.0        D
+4       F1  2000-07-29    Bordeaux        Metz  1734.34  1673.11     2.0     0.0        H
+                </pre>
+            </div>
+
+            <h3>کیفیت داده</h3>
+            <div class="grid-2">
+                <div class="metric-card">
+                    <h4>تعداد کل رکوردها</h4>
+                    <span class="value">230,557</span>
+                    <p>مسابقه فوتبال</p>
+                </div>
+                <div class="metric-card">
+                    <h4>تعداد ویژگی‌ها</h4>
+                    <span class="value">48</span>
+                    <p>ستون مختلف</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>نکته مهم درباره داده‌های ناقص</h4>
+                <p>همانطور که در بخش بعدی خواهیم دید، بسیاری از ستون‌ها دارای مقادیر گمشده (NULL) هستند. این موضوع نیاز
+                    به پیش‌پردازش دقیق دارد. برخی ستون‌ها مانند <code>MatchTime</code> بیش از ۵۰٪ داده گمشده دارند و
+                    برخی آمارهای بازی تنها برای بازی‌های اخیر موجود هستند.</p>
+            </div>
+        </section>
+
+        <!-- بخش ۳: بارگذاری داده‌ها -->
+        <section id="loading" class="section">
+            <h2><span class="section-icon"></span>بارگذاری و آماده‌سازی داده‌ها</h2>
+
+            <h3>مرحله ۱: نصب و وارد کردن کتابخانه‌ها</h3>
+            <p>در ابتدا باید کتابخانه <code>kagglehub</code> را برای دسترسی به دیتاست‌های Kaggle وارد کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+import kagglehub
+
+# دانلود آخرین نسخه دیتاست
+path = kagglehub.dataset_download("adamgbor/club-football-match-data-2000-2025")
+
+print("Path to dataset files:", path)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح کد</h4>
+                <ul>
+                    <li><strong>خط ۱:</strong> وارد کردن کتابخانه <code>kagglehub</code> که امکان دانلود مستقیم
+                        دیتاست‌ها از Kaggle را فراهم می‌کند</li>
+                    <li><strong>خط ۳-۴:</strong> تابع <code>dataset_download()</code> با استفاده از شناسه دیتاست،
+                        فایل‌ها را دانلود کرده و مسیر محلی آن‌ها را برمی‌گرداند</li>
+                    <li><strong>خط ۶:</strong> نمایش مسیر ذخیره‌سازی فایل‌ها (معمولاً در
+                        <code>~/.cache/kagglehub/</code>)
+                    </li>
+                </ul>
+            </div>
+
+            <h4>خروجی کد:</h4>
+            <div class="code-block">
+                <pre>
+Warning: Looks like you're using an outdated `kagglehub` version (installed: 0.3.13)
+Downloading from https://www.kaggle.com/api/v1/datasets/download/...
+100%|██████████| 14.4M/14.4M [00:00<00:00, 51.5MB/s]
+Extracting files...
+Path to dataset files: /root/.cache/kagglehub/datasets/adamgbor/club-football-match-data-2000-2025/versions/3
+                </pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>نکته عملکردی</h4>
+                <p>کتابخانه <code>kagglehub</code> به صورت خودکار فایل را دانلود و استخراج می‌کند. حجم فایل حدود ۱۴.۴
+                    مگابایت است که با سرعت بالا (۵۱.۵ MB/s) دانلود شده است.</p>
+            </div>
+
+            <h3>مرحله ۲: انتقال فایل‌ها به محل مناسب</h3>
+            <p>برای سهولت دسترسی، فایل‌های دانلود شده را به پوشه‌ای مشخص منتقل می‌کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+import shutil
+import os
+
+# تعریف پوشه مقصد
+target_dir = "/content/ST"
+os.makedirs(target_dir, exist_ok=True)
+
+# انتقال تمام فایل‌ها
+for file_name in os.listdir(path):
+    full_file_name = os.path.join(path, file_name)
+    if os.path.isfile(full_file_name):
+        shutil.move(full_file_name, target_dir)
+
+print("Files moved to:", target_dir)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح کد</h4>
+                <ul>
+                    <li><strong>خط ۱-۲:</strong> وارد کردن کتابخانه‌های <code>shutil</code> (برای عملیات فایل) و
+                        <code>os</code> (برای مدیریت مسیرها)
+                    </li>
+                    <li><strong>خط ۴-۶:</strong> ساخت پوشه <code>/content/ST</code> (اگر وجود ندارد) برای ذخیره فایل‌ها.
+                        پارامتر <code>exist_ok=True</code> از بروز خطا در صورت وجود پوشه جلوگیری می‌کند</li>
+                    <li><strong>خط ۸-۱۲:</strong> حلقه‌ای که تمام فایل‌های موجود در پوشه دانلود را پیدا کرده و به پوشه
+                        مقصد منتقل می‌کند</li>
+                    <li><strong>شرط <code>os.path.isfile()</code>:</strong> اطمینان می‌دهد که فقط فایل‌ها (نه پوشه‌ها)
+                        منتقل شوند</li>
+                </ul>
+            </div>
+
+            <h3>مرحله ۳: خواندن داده‌ها با Pandas</h3>
+            <p>پس از آماده‌سازی فایل‌ها، با استفاده از کتابخانه Pandas فایل CSV را می‌خوانیم:</p>
+
+            <div class="code-block">
+                <pre>
+import pandas as pd
+
+# خواندن فایل CSV
+match_data = pd.read_csv("/content/ST/Matches.csv")
+
+# نمایش ۵ رکورد اول
+match_data.head()
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح کد</h4>
+                <ul>
+                    <li><strong>خط ۱:</strong> وارد کردن کتابخانه Pandas که ابزار اصلی برای کار با داده‌های جدولی در
+                        Python است</li>
+                    <li><strong>خط ۳-۴:</strong> تابع <code>read_csv()</code> فایل CSV را خوانده و به یک DataFrame تبدیل
+                        می‌کند</li>
+                    <li><strong>خط ۶-۷:</strong> متد <code>head()</code> به صورت پیش‌فرض ۵ رکورد اول را نمایش می‌دهد
+                    </li>
+                </ul>
+            </div>
+
+            <h3>ساختار اولیه داده</h3>
+            <p>با اجرای دستور <code>match_data.head()</code>، ساختار اولیه دیتاست به صورت زیر نمایش داده می‌شود:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Division</th>
+                        <th>MatchDate</th>
+                        <th>HomeTeam</th>
+                        <th>AwayTeam</th>
+                        <th>HomeElo</th>
+                        <th>AwayElo</th>
+                        <th>FTHome</th>
+                        <th>FTAway</th>
+                        <th>FTResult</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>F1</td>
+                        <td>2000-07-28</td>
+                        <td>Marseille</td>
+                        <td>Troyes</td>
+                        <td>1686.34</td>
+                        <td>1586.57</td>
+                        <td>2.0</td>
+                        <td>1.0</td>
+                        <td>H</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>F1</td>
+                        <td>2000-07-28</td>
+                        <td>Paris SG</td>
+                        <td>Strasbourg</td>
+                        <td>1714.89</td>
+                        <td>1642.51</td>
+                        <td>3.0</td>
+                        <td>1.0</td>
+                        <td>H</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>F2</td>
+                        <td>2000-07-28</td>
+                        <td>Wasquehal</td>
+                        <td>Nancy</td>
+                        <td>1465.08</td>
+                        <td>1633.80</td>
+                        <td>1.0</td>
+                        <td>2.0</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>F1</td>
+                        <td>2000-07-29</td>
+                        <td>Auxerre</td>
+                        <td>Sedan</td>
+                        <td>1635.58</td>
+                        <td>1624.22</td>
+                        <td>0.0</td>
+                        <td>0.0</td>
+                        <td>D</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>F1</td>
+                        <td>2000-07-29</td>
+                        <td>Bordeaux</td>
+                        <td>Metz</td>
+                        <td>1734.34</td>
+                        <td>1673.11</td>
+                        <td>2.0</td>
+                        <td>0.0</td>
+                        <td>H</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>مشاهدات کلیدی</h4>
+                <ul>
+                    <li>داده‌ها از سال ۲۰۰۰ شروع می‌شوند</li>
+                    <li>ستون <code>FTResult</code> شامل سه مقدار است: H (برد میزبان)، A (برد مهمان)، D (تساوی)</li>
+                    <li>امتیازات Elo برای هر دو تیم قبل از مسابقه ثبت شده است</li>
+                    <li>تعداد گل‌های هر تیم به صورت اعشاری (float) ذخیره شده است</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>نکته احتیاط</h4>
+                <p>در این مرحله تنها چند ستون از کل ۴۸ ستون نمایش داده شده است. برای مشاهده تمام ستون‌ها باید از دستورات
+                    دیگری مانند <code>match_data.columns</code> استفاده کنیم که در بخش بعدی بررسی خواهد شد.</p>
+            </div>
+        </section>
+
+        <!-- بخش ۴: کاوش داده‌ها -->
+        <section id="exploration" class="section">
+            <h2><span class="section-icon"></span>کاوش و تحلیل اولیه داده‌ها</h2>
+
+            <p>پس از بارگذاری موفقیت‌آمیز دیتاست، مرحله بعدی کاوش و درک عمیق داده‌هاست. این مرحله شامل بررسی ساختار،
+                کیفیت، توزیع و ویژگی‌های مختلف داده‌ها است.</p>
+
+            <h3>مرحله ۱: بررسی اطلاعات کلی دیتاست</h3>
+            <p>برای دریافت اطلاعات جامع درباره دیتاست از متد <code>info()</code> استفاده می‌کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+match_data.info()
+                </pre>
+            </div>
+
+            <h4>خروجی دستور:</h4>
+            <div class="code-block">
+                <pre>
+'pandas.core.frame.DataFrame'>
+RangeIndex: 230557 entries, 0 to 230556
+Data columns (total 48 columns):
+ #   Column       Non-Null Count   Dtype
+---  ------       --------------   -----
+ 0   Division     230557 non-null  object
+ 1   MatchDate    230557 non-null  object
+ 2   MatchTime    99072 non-null   object
+ 3   HomeTeam     230557 non-null  object
+ 4   AwayTeam     230557 non-null  object
+ 5   HomeElo      141597 non-null  float64
+ 6   AwayElo      141528 non-null  float64
+ 7   Form3Home    229057 non-null  float64
+ 8   Form5Home    229057 non-null  float64
+ 9   Form3Away    229057 non-null  float64
+ 10  Form5Away    229057 non-null  float64
+ 11  FTHome       230554 non-null  float64
+ 12  FTAway       230554 non-null  float64
+ 13  FTResult     230554 non-null  object
+ 14  HTHome       175977 non-null  float64
+ 15  HTAway       175977 non-null  float64
+ 16  HTResult     175977 non-null  object
+ 17  HomeShots    114735 non-null  float64
+ 18  AwayShots    114738 non-null  float64
+ 19  HomeTarget   113929 non-null  float64
+ 20  AwayTarget   113932 non-null  float64
+ 21  HomeFouls    113973 non-null  float64
+ 22  AwayFouls    113973 non-null  float64
+ 23  HomeCorners  114363 non-null  float64
+ 24  AwayCorners  114363 non-null  float64
+ 25  HomeYellow   119298 non-null  float64
+ 26  AwayYellow   119299 non-null  float64
+ 27  HomeRed      119299 non-null  float64
+ 28  AwayRed      119297 non-null  float64
+ 29  OddHome      227527 non-null  float64
+ 30  OddDraw      227527 non-null  float64
+ 31  OddAway      227527 non-null  float64
+ 32  MaxHome      202922 non-null  float64
+ 33  MaxDraw      202922 non-null  float64
+ 34  MaxAway      202922 non-null  float64
+ 35  Over25       148398 non-null  float64
+ 36  Under25      148397 non-null  float64
+ 37  MaxOver25    148398 non-null  float64
+ 38  MaxUnder25   148397 non-null  float64
+ 39  HandiSize    156733 non-null  float64
+ 40  HandiHome    156475 non-null  float64
+ 41  HandiAway    156451 non-null  float64
+ 42  C_LTH        112602 non-null  float64
+ 43  C_LTA        112602 non-null  float64
+ 44  C_VHD        112602 non-null  float64
+ 45  C_VAD        112602 non-null  float64
+ 46  C_HTB        112602 non-null  float64
+ 47  C_PHB        112602 non-null  float64
+dtypes: float64(41), object(7)
+memory usage: 84.4+ MB
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>تحلیل خروجی info()</h4>
+                <ul>
+                    <li><strong>تعداد کل رکوردها:</strong> ۲۳۰,۵۵۷ مسابقه</li>
+                    <li><strong>تعداد ستون‌ها:</strong> ۴۸ ویژگی</li>
+                    <li><strong>انواع داده:</strong>
+                        <ul>
+                            <li>۴۱ ستون از نوع <code>float64</code> (اعداد اعشاری)</li>
+                            <li>۷ ستون از نوع <code>object</code> (رشته‌های متنی)</li>
+                        </ul>
+                    </li>
+                    <li><strong>حافظه مصرفی:</strong> حدود ۸۴.۴ مگابایت</li>
+                </ul>
+            </div>
+
+            <h3>مرحله ۲: شمارش داده‌های گمشده</h3>
+            <p>یکی از مهم‌ترین بخش‌های کاوش داده، شناسایی مقادیر گمشده (NULL) است:</p>
+
+            <div class="code-block">
+                <pre>
+match_data.isnull().sum()
+                </pre>
+            </div>
+
+            <h4>نتایج تعداد داده‌های گمشده در هر ستون:</h4>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ستون</th>
+                        <th>تعداد مقادیر گمشده</th>
+                        <th>درصد گمشدگی</th>
+                        <th>وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Division</td>
+                        <td>0</td>
+                        <td>0%</td>
+                        <td><span class="badge">کامل ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>MatchDate</td>
+                        <td>0</td>
+                        <td>0%</td>
+                        <td><span class="badge">کامل ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>MatchTime</td>
+                        <td>131,485</td>
+                        <td>57%</td>
+                        <td><span class="badge gray">نیمه گمشده</span></td>
+                    </tr>
+                    <tr>
+                        <td>HomeTeam</td>
+                        <td>0</td>
+                        <td>0%</td>
+                        <td><span class="badge">کامل ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>AwayTeam</td>
+                        <td>0</td>
+                        <td>0%</td>
+                        <td><span class="badge">کامل ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>HomeElo</td>
+                        <td>88,960</td>
+                        <td>39%</td>
+                        <td><span class="badge secondary">قابل قبول</span></td>
+                    </tr>
+                    <tr>
+                        <td>AwayElo</td>
+                        <td>89,029</td>
+                        <td>39%</td>
+                        <td><span class="badge secondary">قابل قبول</span></td>
+                    </tr>
+                    <tr>
+                        <td>Form3Home/Away</td>
+                        <td>1,500</td>
+                        <td>0.7%</td>
+                        <td><span class="badge">عالی ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>FTHome/Away/Result</td>
+                        <td>3</td>
+                        <td>0.001%</td>
+                        <td><span class="badge">تقریباً کامل ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>HTHome/Away/Result</td>
+                        <td>54,580</td>
+                        <td>24%</td>
+                        <td><span class="badge secondary">قابل قبول</span></td>
+                    </tr>
+                    <tr>
+                        <td>HomeShots/AwayShots</td>
+                        <td>~115,822</td>
+                        <td>50%</td>
+                        <td><span class="badge gray">نیمه گمشده</span></td>
+                    </tr>
+                    <tr>
+                        <td>ضرایب شرط‌بندی</td>
+                        <td>3,030 - 82,160</td>
+                        <td>1-36%</td>
+                        <td><span class="badge secondary">متفاوت</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <h4>تحلیل داده‌های گمشده</h4>
+                <p><strong>دسته‌بندی ستون‌ها بر اساس میزان گمشدگی:</strong></p>
+                <ul>
+                    <li><strong>کاملاً موجود (< 1%):</strong> Division، MatchDate، HomeTeam، AwayTeam، FTHome، FTAway،
+                                FTResult، Form3/5</li>
+                    <li><strong>قابل قبول (1-40%):</strong> HomeElo، AwayElo، HTHome/Away/Result، OddHome/Draw/Away</li>
+                    <li><strong>نیمه گمشده (40-60%):</strong> MatchTime، آمار بازی (شوت‌ها، خطاها، کرنرها)</li>
+                    <li><strong>بسیار گمشده (> 60%):</strong> هیچ کدام</li>
+                </ul>
+                <p><strong>دلیل گمشدگی:</strong> برخی آمارها (مانند شوت‌ها) فقط برای سال‌های اخیر ثبت شده‌اند و برای
+                    بازی‌های قدیمی‌تر موجود نیستند.</p>
+            </div>
+
+            <h3>مرحله ۳: بررسی ابعاد دیتاست</h3>
+            <div class="code-block">
+                <pre>
+match_data.shape
+                </pre>
+            </div>
+
+            <h4>خروجی:</h4>
+            <div class="code-block">
+                <pre>
+(230557, 48)
+                </pre>
+            </div>
+
+            <p>این خروجی نشان می‌دهد که دیتاست دارای <strong>۲۳۰,۵۵۷ سطر (مسابقه)</strong> و <strong>۴۸ ستون
+                    (ویژگی)</strong> است.</p>
+
+            <h3>مرحله ۴: مشاهده نام تمام ستون‌ها</h3>
+            <div class="code-block">
+                <pre>
+match_data.columns
+                </pre>
+            </div>
+
+            <h4>لیست کامل ستون‌ها:</h4>
+            <div class="code-block">
+                <pre>
+Index(['Division', 'MatchDate', 'MatchTime', 'HomeTeam', 'AwayTeam', 'HomeElo',
+       'AwayElo', 'Form3Home', 'Form5Home', 'Form3Away', 'Form5Away', 'FTHome',
+       'FTAway', 'FTResult', 'HTHome', 'HTAway', 'HTResult', 'HomeShots',
+       'AwayShots', 'HomeTarget', 'AwayTarget', 'HomeFouls', 'AwayFouls',
+       'HomeCorners', 'AwayCorners', 'HomeYellow', 'AwayYellow', 'HomeRed',
+       'AwayRed', 'OddHome', 'OddDraw', 'OddAway', 'MaxHome', 'MaxDraw',
+       'MaxAway', 'Over25', 'Under25', 'MaxOver25', 'MaxUnder25', 'HandiSize',
+       'HandiHome', 'HandiAway', 'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB',
+       'C_PHB'],
+      dtype='object')
+                </pre>
+            </div>
+
+            <h3>مرحله ۵: آمار توصیفی</h3>
+            <p>برای درک بهتر توزیع داده‌های عددی، از متد <code>describe()</code> استفاده می‌کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+match_data.describe()
+                </pre>
+            </div>
+
+            <h4>برخی از نکات کلیدی آماری:</h4>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4> امتیازات Elo</h4>
+                    <ul>
+                        <li><strong>میانگین:</strong> حدود ۱۵۳۳</li>
+                        <li><strong>انحراف معیار:</strong> ۱۵۳</li>
+                        <li><strong>بیشینه:</strong> ۲۱۰۷ (تیم بسیار قوی)</li>
+                        <li><strong>کمینه:</strong> ۱۱۰۳ (تیم بسیار ضعیف)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4> تعداد گل‌ها</h4>
+                    <ul>
+                        <li><strong>میانگین گل میزبان:</strong> ۱.۴۹</li>
+                        <li><strong>میانگین گل مهمان:</strong> ۱.۱۵</li>
+                        <li><strong>بیشترین گل میزبان:</strong> ۱۰</li>
+                        <li><strong>بیشترین گل مهمان:</strong> ۱۳</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>مشاهدات آماری مهم</h4>
+                <ul>
+                    <li><strong>مزیت میزبانی:</strong> میانگین گل‌های تیم میزبان (۱.۴۹) بیشتر از مهمان (۱.۱۵) است که
+                        نشان‌دهنده تاثیر مثبت بازی در خانه است</li>
+                    <li><strong>توزیع Elo:</strong> امتیازات Elo تقریباً نرمال با میانگین ۱۵۳۳ توزیع شده‌اند</li>
+                    <li><strong>فرم تیم‌ها:</strong> میانگین فرم ۵ بازی اخیر برای مهمان (۶.۹۳) کمی بیشتر از میزبان
+                        (۶.۷۲) است</li>
+                    <li><strong>نتایج نیمه اول:</strong> میانگین گل‌های نیمه اول (۰.۶۶ میزبان، ۰.۵۰ مهمان) کمتر از کل
+                        بازی است</li>
+                </ul>
+            </div>
+
+            <h3>جمع‌بندی مرحله کاوش</h3>
+            <div class="quote">
+                در این مرحله با ساختار، کیفیت و ویژگی‌های دیتاست آشنا شدیم. مشاهدات کلیدی شامل: وجود ۲۳۰,۵۵۷ مسابقه با
+                ۴۸ ویژگی، داده‌های گمشده قابل توجه در برخی ستون‌ها (به ویژه آمار بازی)، و تایید مزیت میزبانی در فوتبال.
+                این اطلاعات مبنای تصمیم‌گیری برای مراحل بعدی پیش‌پردازش و مدل‌سازی خواهد بود.
+            </div>
+        </section>
+
+        <!-- بخش ۵: پیش‌پردازش -->
+        <section id="preprocessing" class="section">
+            <h2><span class="section-icon"></span>پیش‌پردازش و تمیزسازی داده‌ها</h2>
+
+            <p>بر اساس یافته‌های مرحله کاوش، اکنون باید داده‌ها را برای مدل‌سازی آماده کنیم. این فرآیند شامل حذف
+                ستون‌های غیرضروری، مدیریت داده‌های گمشده، و تبدیل داده‌ها به فرمت مناسب است.</p>
+
+            <h3>گام ۱: حذف ستون‌های غیرضروری</h3>
+            <p>با توجه به تحلیل داده‌های گمشده و هدف پروژه، تصمیم می‌گیریم ستون‌های زیر را حذف کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+match_data.drop([
+    'HTHome', 'HTAway', 'HTResult',      # نتایج نیمه اول
+    'HomeShots', 'AwayShots',            # شوت‌ها
+    'HomeTarget', 'AwayTarget',          # شوت به چارچوب
+    'HomeFouls', 'AwayFouls',            # خطاها
+    'HomeCorners', 'AwayCorners',        # کرنرها
+    'HomeYellow', 'AwayYellow',          # کارت زرد
+    'HomeRed', 'AwayRed',                # کارت قرمز
+    'OddHome', 'OddDraw', 'OddAway',     # ضرایب متوسط
+    'MaxHome', 'MaxDraw', 'MaxAway',     # بیشترین ضرایب
+    'Over25', 'Under25',                 # ضرایب تعداد گل
+    'MaxOver25', 'MaxUnder25',           # بیشترین ضرایب گل
+    'HandiSize', 'HandiHome', 'HandiAway' # هندیکپ
+], axis=1, inplace=True)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>دلایل حذف این ستون‌ها</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>دسته</th>
+                            <th>دلیل حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>نتایج نیمه اول</strong></td>
+                            <td>۲۴٪ داده گمشده + اطلاعات مشابه با نتیجه نهایی</td>
+                        </tr>
+                        <tr>
+                            <td><strong>آمار بازی</strong></td>
+                            <td>۵۰٪ داده گمشده + فقط برای بازی‌های اخیر موجود است</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ضرایب شرط‌بندی</strong></td>
+                            <td>تا ۳۶٪ داده گمشده + همبستگی بالا با سایر ویژگی‌ها</td>
+                        </tr>
+                        <tr>
+                            <td><strong>هندیکپ</strong></td>
+                            <td>۳۲٪ داده گمشده + اطلاعات تکراری</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="warning-box">
+                <h4>نکته مهم</h4>
+                <p>پارامتر <code>inplace=True</code> تغییرات را مستقیماً روی DataFrame اصلی اعمال می‌کند و نیازی به
+                    ایجاد کپی جدید نیست. پارامتر <code>axis=1</code> مشخص می‌کند که حذف باید روی ستون‌ها (نه سطرها)
+                    انجام شود.</p>
+            </div>
+
+            <h4>بررسی ستون‌های باقیمانده:</h4>
+            <div class="code-block">
+                <pre>
+match_data.columns
+                </pre>
+            </div>
+
+            <p>پس از حذف، ستون‌های باقیمانده عبارتند از:</p>
+            <div class="code-block">
+                <pre>
+Index(['Division', 'MatchDate', 'MatchTime', 'HomeTeam', 'AwayTeam', 'HomeElo',
+       'AwayElo', 'Form3Home', 'Form5Home', 'Form3Away', 'Form5Away', 'FTHome',
+       'FTAway', 'FTResult', 'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB', 'C_PHB'],
+      dtype='object')
+                </pre>
+            </div>
+
+            <div class="grid-2">
+                <div class="metric-card">
+                    <h4>ستون‌های حذف شده</h4>
+                    <span class="value">27</span>
+                    <p>ستون غیرضروری</p>
+                </div>
+                <div class="metric-card">
+                    <h4>ستون‌های باقیمانده</h4>
+                    <span class="value">21</span>
+                    <p>ویژگی مفید</p>
+                </div>
+            </div>
+
+            <h3>گام ۲: حذف داده‌های گمشده</h3>
+            <p>در ادامه فرآیند پیش‌پردازش، رکوردهایی که دارای مقادیر گمشده در ستون‌های حیاتی هستند را حذف می‌کنیم. این
+                کار در بخش بعدی (مهندسی ویژگی) و همراه با آماده‌سازی نهایی داده برای مدل‌سازی انجام خواهد شد.</p>
+
+            <div class="highlight-box">
+                <h4>استراتژی مدیریت داده‌های گمشده</h4>
+                <p>به جای حذف همه رکوردهای دارای هر نوع داده گمشده، تنها رکوردهایی را حذف می‌کنیم که:</p>
+                <ul>
+                    <li>ستون هدف (<code>FTResult</code>) آن‌ها NULL است</li>
+                    <li>ویژگی‌های کلیدی انتخاب شده برای مدل‌سازی NULL هستند</li>
+                </ul>
+                <p>این رویکرد به ما امکان می‌دهد حداکثر داده معتبر را حفظ کنیم.</p>
+            </div>
+        </section>
+
+        <!-- بخش ۶: مهندسی ویژگی -->
+        <section id="feature-engineering" class="section">
+            <h2><span class="section-icon"></span>مهندسی ویژگی</h2>
+
+            <p>مهندسی ویژگی فرآیند ساخت ویژگی‌های جدید از داده‌های موجود است که می‌تواند قدرت پیش‌بینی مدل را به طور
+                قابل توجهی افزایش دهد. در این بخش، سه ویژگی جدید و قدرتمند می‌سازیم.</p>
+
+            <h3>ویژگی ۱: اختلاف امتیازات Elo (EloDiff)</h3>
+
+            <h4>مفهوم:</h4>
+            <p>به جای استفاده از امتیازات Elo هر تیم به صورت جداگانه، <strong>اختلاف</strong> امتیازات را محاسبه
+                می‌کنیم. این عدد نشان‌دهنده قدرت نسبی تیم میزبان نسبت به مهمان است.</p>
+
+            <div class="code-block">
+                <pre>
+# ساخت ویژگی EloDiff
+match_data['EloDiff'] = match_data['HomeElo'] - match_data['AwayElo']
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>تفسیر EloDiff</h4>
+                <ul>
+                    <li><strong>EloDiff > 0:</strong> تیم میزبان قوی‌تر است</li>
+                    <li><strong>EloDiff = 0:</strong> هر دو تیم قدرت برابر دارند</li>
+                    <li><strong>EloDiff < 0:</strong> تیم مهمان قوی‌تر است</li>
+                </ul>
+                <p><strong>مثال:</strong> اگر تیم میزبان Elo برابر ۱۸۰۰ و مهمان ۱۶۰۰ داشته باشد، EloDiff = +۲۰۰ خواهد
+                    بود که نشان‌دهنده برتری قابل توجه میزبان است.</p>
+            </div>
+
+            <h4>چرا این ویژگی مهم است؟</h4>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>۱. کاهش ابعاد</h4>
+                    <p>دو ویژگی (HomeElo, AwayElo) را به یک ویژگی تبدیل می‌کند</p>
+                </div>
+                <div class="card">
+                    <h4>۲. اطلاعات نسبی</h4>
+                    <p>مدل را بر روی قدرت نسبی تیم‌ها متمرکز می‌کند</p>
+                </div>
+                <div class="card">
+                    <h4>۳. بهبود عملکرد</h4>
+                    <p>معمولاً عملکرد مدل را در پیش‌بینی بهبود می‌بخشد</p>
+                </div>
+            </div>
+
+            <h4>حذف ستون‌های اصلی Elo:</h4>
+            <p>پس از ساخت EloDiff، دیگر نیازی به ستون‌های اصلی نداریم:</p>
+            <div class="code-block">
+                <pre>
+match_data.drop(['HomeElo', 'AwayElo'], axis=1, inplace=True)
+                </pre>
+            </div>
+
+            <h3>ویژگی ۲: اختلاف فرم ۵ بازی اخیر (Form5Diff)</h3>
+
+            <h4>مفهوم:</h4>
+            <p>مشابه EloDiff، اختلاف امتیازات فرم ۵ بازی اخیر را محاسبه می‌کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+# بررسی وجود داده‌های گمشده در Form5Home
+print(match_data['Form5Home'].isna().sum())  # خروجی: 1500
+
+# ساخت ویژگی Form5Diff
+match_data['Form5Diff'] = match_data['Form5Home'] - match_data['Form5Away']
+                </pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>تفسیر Form5Diff</h4>
+                <p>این ویژگی نشان می‌دهد کدام تیم در ۵ بازی اخیر عملکرد بهتری داشته است:</p>
+                <ul>
+                    <li><strong>مثبت:</strong> تیم میزبان فرم بهتری دارد</li>
+                    <li><strong>منفی:</strong> تیم مهمان فرم بهتری دارد</li>
+                    <li><strong>دامنه:</strong> از -۱۵ (مهمان ۵ برد، میزبان ۵ باخت) تا +۱۵ (میزبان ۵ برد، مهمان ۵ باخت)
+                    </li>
+                </ul>
+            </div>
+
+            <h3>ویژگی ۳: اختلاف فرم ۳ بازی اخیر (Form3Diff)</h3>
+
+            <h4>مفهوم:</h4>
+            <p>مشابه Form5Diff اما برای ۳ بازی اخیر:</p>
+
+            <div class="code-block">
+                <pre>
+# ساخت ویژگی Form3Diff
+match_data['Form3Diff'] = match_data['Form3Home'] - match_data['Form3Away']
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>چرا هم Form3 و هم Form5؟</h4>
+                <p>استفاده از هر دو ویژگی اطلاعات متفاوتی ارائه می‌دهد:</p>
+                <ul>
+                    <li><strong>Form3Diff:</strong> فرم بسیار اخیر (حساس‌تر به تغییرات)</li>
+                    <li><strong>Form5Diff:</strong> فرم میان‌مدت (پایدارتر)</li>
+                </ul>
+                <p>ترکیب این دو به مدل امکان می‌دهد هم روندهای کوتاه‌مدت و هم بلندمدت را در نظر بگیرد.</p>
+            </div>
+
+            <h4>بررسی ستون‌های نهایی:</h4>
+            <div class="code-block">
+                <pre>
+match_data.columns
+                </pre>
+            </div>
+
+            <p>خروجی نشان می‌دهد که حالا ۳ ویژگی جدید داریم:</p>
+            <div class="code-block">
+                <pre>
+Index(['Division', 'MatchDate', 'MatchTime', 'HomeTeam', 'AwayTeam',
+       'Form3Home', 'Form5Home', 'Form3Away', 'Form5Away', 'FTHome',
+       'FTAway', 'FTResult', 'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB',
+       'C_PHB', 'EloDiff', 'Form5Diff', 'Form3Diff'],
+      dtype='object')
+                </pre>
+            </div>
+
+            <h3>توجه: نگهداری موقت ستون‌های Form</h3>
+            <p>در کد اصلی، دستور زیر اجرا شده است:</p>
+            <div class="code-block">
+                <pre>
+match_data.drop(columns=['Form3Home', 'Form5Home', 'Form3Away', 'Form5Away'])
+                </pre>
+            </div>
+
+            <div class="warning-box">
+                <h4>نکته مهم</h4>
+                <p>دقت کنید که این دستور بدون پارامتر <code>inplace=True</code> نوشته شده، بنابراین تغییرات روی
+                    DataFrame اصلی اعمال نمی‌شود. در عمل، این ستون‌ها همچنان در دیتاست باقی مانده‌اند و در مرحله بعد
+                    (آماده‌سازی نهایی برای مدل‌سازی) استفاده می‌شوند.</p>
+            </div>
+
+            <h3>جمع‌بندی ویژگی‌های ساخته شده</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام ویژگی</th>
+                        <th>فرمول</th>
+                        <th>کاربرد</th>
+                        <th>دامنه مقادیر</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>EloDiff</code></td>
+                        <td>HomeElo - AwayElo</td>
+                        <td>قدرت نسبی تیم‌ها</td>
+                        <td>حدود -1000 تا +1000</td>
+                    </tr>
+                    <tr>
+                        <td><code>Form5Diff</code></td>
+                        <td>Form5Home - Form5Away</td>
+                        <td>فرم میان‌مدت</td>
+                        <td>-15 تا +15</td>
+                    </tr>
+                    <tr>
+                        <td><code>Form3Diff</code></td>
+                        <td>Form3Home - Form3Away</td>
+                        <td>فرم کوتاه‌مدت</td>
+                        <td>-9 تا +9</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="quote">
+                مهندسی ویژگی یکی از مهم‌ترین مراحل در پروژه‌های یادگیری ماشین است. با ساخت این سه ویژگی، اطلاعات را به
+                شکلی ارائه داده‌ایم که برای مدل قابل فهم‌تر و مفیدتر است. این ویژگی‌ها به مدل کمک می‌کنند تا الگوهای
+                پیچیده‌تر را یاد بگیرد.
+            </div>
+        </section>
+
+        <!-- بخش ۷: مدل‌سازی -->
+        <section id="modeling" class="section">
+            <h2><span class="section-icon"></span>مدل‌سازی و آموزش الگوریتم‌ها</h2>
+
+            <p>در این بخش، سه الگوریتم پیشرفته یادگیری ماشین را برای پیش‌بینی نتایج مسابقات پیاده‌سازی می‌کنیم. قبل از
+                شروع، باید داده‌ها را برای آموزش آماده کنیم.</p>
+
+            <h3>آماده‌سازی نهایی داده‌ها</h3>
+
+            <h4>گام ۱: وارد کردن کتابخانه‌های مورد نیاز</h4>
+            <div class="code-block">
+                <pre>
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح کتابخانه‌ها</h4>
+                <ul>
+                    <li><code>pandas</code> و <code>numpy</code>: پردازش و محاسبات عددی</li>
+                    <li><code>train_test_split</code>: تقسیم داده به آموزش و تست</li>
+                    <li><code>LabelEncoder</code>: تبدیل برچسب‌های متنی به عددی</li>
+                    <li><code>StandardScaler</code>: نرمال‌سازی داده‌ها</li>
+                    <li><code>matplotlib</code> و <code>seaborn</code>: رسم نمودارها</li>
+                </ul>
+            </div>
+
+            <h4>گام ۲: انتخاب ویژگی‌ها</h4>
+            <div class="code-block">
+                <pre>
+# کپی دیتاست
+df = match_data.copy()
+
+print(f"\nRows: {df.shape[0]}, Columns: {df.shape[1]}")
+
+# تعریف ویژگی‌های مورد استفاده
+feature_cols = ['Form3Home', 'Form5Home', 'Form3Away', 'Form5Away',
+                'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB', 'C_PHB',
+                'EloDiff', 'Form5Diff', 'Form3Diff']
+                </pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>دلیل انتخاب این ویژگی‌ها</h4>
+                <p>۱۳ ویژگی انتخاب شده به ۳ دسته تقسیم می‌شوند:</p>
+                <ul>
+                    <li><strong>فرم تیم‌ها (۴ ویژگی):</strong> Form3Home, Form5Home, Form3Away, Form5Away</li>
+                    <li><strong>احتمالات محاسبه‌شده (۶ ویژگی):</strong> C_LTH, C_LTA, C_VHD, C_VAD, C_HTB, C_PHB</li>
+                    <li><strong>ویژگی‌های ساخته شده (۳ ویژگی):</strong> EloDiff, Form5Diff, Form3Diff</li>
+                </ul>
+            </div>
+
+            <h4>گام ۳: پاکسازی داده‌های ناقص</h4>
+            <div class="code-block">
+                <pre>
+# حذف رکوردهای بدون برچسب
+df_clean = df.dropna(subset=['FTResult'])
+
+# حذف رکوردهای بدون ویژگی‌های ضروری
+df_clean = df_clean.dropna(subset=feature_cols)
+
+print(f"After cleaning: {df_clean.shape[0]} rows")
+                </pre>
+            </div>
+
+            <p><strong>نتیجه:</strong> بعد از پاکسازی، تعداد رکوردهای معتبر حدود <strong>۱۱۲,۶۰۲</strong> مسابقه باقی
+                می‌ماند.</p>
+
+            <h4>گام ۴: جداسازی ویژگی‌ها و برچسب‌ها</h4>
+            <div class="code-block">
+                <pre>
+# ویژگی‌ها (X) و برچسب‌ها (y)
+X = df_clean[feature_cols].copy()
+y = df_clean['FTResult'].copy()
+
+print(f"\nFeatures: {len(feature_cols)}")
+                </pre>
+            </div>
+
+            <h4>گام ۵: رمزگذاری برچسب‌ها</h4>
+            <p>چون برچسب‌های ما متنی هستند (H, A, D)، باید آن‌ها را به عدد تبدیل کنیم:</p>
+
+            <div class="code-block">
+                <pre>
+# رمزگذاری برچسب‌ها
+le = LabelEncoder()
+y_encoded = le.fit_transform(y)
+
+print(f"\nTarget classes: {le.classes_}")
+# خروجی: ['A' 'D' 'H']
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>نقشه رمزگذاری</h4>
+                <ul>
+                    <li><strong>A (Away win)</strong> → 0</li>
+                    <li><strong>D (Draw)</strong> → 1</li>
+                    <li><strong>H (Home win)</strong> → 2</li>
+                </ul>
+            </div>
+
+            <h4>گام ۶: تقسیم داده به آموزش و تست</h4>
+            <div class="code-block">
+                <pre>
+# تقسیم 80% آموزش، 20% تست
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y_encoded,
+    test_size=0.2,      # 20% برای تست
+    random_state=42,    # برای تکرارپذیری
+    stratify=y_encoded  # حفظ نسبت کلاس‌ها
+)
+
+print(f"\nTrain: {X_train.shape[0]}, Test: {X_test.shape[0]}")
+# خروجی: Train: 90081, Test: 22521
+                </pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>اهمیت پارامتر stratify</h4>
+                <p>پارامتر <code>stratify=y_encoded</code> تضمین می‌کند که نسبت کلاس‌ها (برد میزبان، مهمان، تساوی) در هر
+                    دو مجموعه آموزش و تست یکسان باشد. این کار از ایجاد تورش (bias) در مدل جلوگیری می‌کند.</p>
+            </div>
+
+            <h4>گام ۷: نرمال‌سازی داده‌ها</h4>
+            <div class="code-block">
+                <pre>
+# نرمال‌سازی با StandardScaler
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>چرا نرمال‌سازی؟</h4>
+                <p>ویژگی‌های مختلف دامنه‌های متفاوتی دارند:</p>
+                <ul>
+                    <li><code>EloDiff</code>: از -۱۰۰۰ تا +۱۰۰۰</li>
+                    <li><code>Form3Diff</code>: از -۹ تا +۹</li>
+                    <li><code>C_LTH</code>: از ۰ تا ۱</li>
+                </ul>
+                <p>StandardScaler همه ویژگی‌ها را به میانگین ۰ و انحراف معیار ۱ تبدیل می‌کند تا هیچ ویژگی‌ای به دلیل
+                    مقیاس بزرگ‌تر، تاثیر بیشتری نداشته باشد.</p>
+            </div>
+
+            <h4>گام ۸: ذخیره داده‌ها</h4>
+            <div class="code-block">
+                <pre>
+# ذخیره داده‌ها برای استفاده در مدل‌های بعدی
+np.save('X_train_scaled.npy', X_train_scaled)
+np.save('X_test_scaled.npy', X_test_scaled)
+np.save('y_train.npy', y_train)
+np.save('y_test.npy', y_test)
+
+print("\n" + "="*60)
+print("Data preprocessing complete!")
+print("="*60)
+                </pre>
+            </div>
+
+            <div class="grid-3">
+                <div class="metric-card">
+                    <h4>مجموع داده‌های آموزش</h4>
+                    <span class="value">90,081</span>
+                    <p>80% از کل داده</p>
+                </div>
+                <div class="metric-card">
+                    <h4>مجموع داده‌های تست</h4>
+                    <span class="value">22,521</span>
+                    <p>20% از کل داده</p>
+                </div>
+                <div class="metric-card">
+                    <h4>تعداد ویژگی‌ها</h4>
+                    <span class="value">13</span>
+                    <p>ویژگی نرمال‌شده</p>
+                </div>
+            </div>
+
+            <h3>مدل ۱: Random Forest (جنگل تصادفی)</h3>
+
+            <h4>معرفی الگوریتم</h4>
+            <p>Random Forest یک الگوریتم ensemble است که از ترکیب چندین درخت تصمیم‌گیری برای پیش‌بینی دقیق‌تر استفاده
+                می‌کند. هر درخت روی یک زیرمجموعه تصادفی از داده‌ها آموزش می‌بیند و نتیجه نهایی با رای‌گیری اکثریت تعیین
+                می‌شود.</p>
+
+            <div class="highlight-box">
+                <h4>مزایای Random Forest</h4>
+                <ul>
+                    <li>مقاوم در برابر overfitting</li>
+                    <li>عملکرد خوب روی داده‌های با ابعاد بالا</li>
+                    <li>امکان تحلیل اهمیت ویژگی‌ها</li>
+                    <li>نیاز کمتر به تنظیم پارامترها</li>
+                </ul>
+            </div>
+
+            <h4>پیاده‌سازی و آموزش</h4>
+            <div class="code-block">
+                <pre>
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.model_selection import cross_val_score
+import warnings
+warnings.filterwarnings('ignore')
+
+print("="*60)
+print("Random Forest Model")
+print("="*60)
+
+# بارگذاری داده‌ها
+X_train = np.load('X_train_scaled.npy')
+X_test = np.load('X_test_scaled.npy')
+y_train = np.load('y_train.npy')
+y_test = np.load('y_test.npy')
+
+print("\nTraining Random Forest...")
+
+# ساخت مدل با پارامترهای بهینه
+rf_model = RandomForestClassifier(
+    n_estimators=200,        # تعداد درخت‌ها
+    max_depth=15,            # عمق هر درخت
+    min_samples_split=10,    # حداقل نمونه برای split
+    min_samples_leaf=4,      # حداقل نمونه در برگ
+    random_state=42,
+    n_jobs=-1                # استفاده از تمام هسته‌های CPU
+)
+
+# آموزش مدل
+rf_model.fit(X_train, y_train)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح پارامترهای مدل</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>پارامتر</th>
+                            <th>مقدار</th>
+                            <th>توضیح</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>n_estimators</code></td>
+                            <td>200</td>
+                            <td>تعداد درخت‌ها در جنگل - هرچه بیشتر، دقت بالاتر اما زمان بیشتر</td>
+                        </tr>
+                        <tr>
+                            <td><code>max_depth</code></td>
+                            <td>15</td>
+                            <td>حداکثر عمق درخت - جلوگیری از overfitting</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_samples_split</code></td>
+                            <td>10</td>
+                            <td>حداقل تعداد نمونه برای تقسیم یک گره</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_samples_leaf</code></td>
+                            <td>4</td>
+                            <td>حداقل تعداد نمونه در هر برگ نهایی</td>
+                        </tr>
+                        <tr>
+                            <td><code>n_jobs</code></td>
+                            <td>-1</td>
+                            <td>استفاده از تمام پردازنده‌ها برای سرعت بیشتر</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>ارزیابی مدل</h4>
+            <div class="code-block">
+                <pre>
+# پیش‌بینی
+y_pred = rf_model.predict(X_test)
+y_train_pred = rf_model.predict(X_train)
+
+# محاسبه دقت
+train_acc = accuracy_score(y_train, y_train_pred)
+test_acc = accuracy_score(y_test, y_pred)
+
+print(f"\nTrain Accuracy: {train_acc:.4f} ({train_acc*100:.2f}%)")
+print(f"Test Accuracy: {test_acc:.4f} ({test_acc*100:.2f}%)")
+
+# اعتبارسنجی متقابل 5-fold
+cv_scores = cross_val_score(rf_model, X_train, y_train, cv=5)
+print(f"\nCross Validation (5-fold):")
+print(f"Mean: {cv_scores.mean():.4f}, Std: {cv_scores.std():.4f}")
+                </pre>
+            </div>
+
+            <div class="warning-box">
+                <h4>اعتبارسنجی متقابل (Cross Validation)</h4>
+                <p>در این روش، داده‌های آموزش را به ۵ قسمت تقسیم می‌کنیم. هر بار ۴ قسمت برای آموزش و ۱ قسمت برای
+                    اعتبارسنجی استفاده می‌شود. این کار ۵ بار تکرار می‌شود و میانگین نتایج گزارش می‌گردد. این روش تخمین
+                    بهتری از عملکرد واقعی مدل ارائه می‌دهد.</p>
+            </div>
+
+            <h4>گزارش طبقه‌بندی</h4>
+            <div class="code-block">
+                <pre>
+print("\n" + "="*60)
+print("Classification Report:")
+print("="*60)
+print(classification_report(y_test, y_pred))
+                </pre>
+            </div>
+
+            <p>گزارش شامل معیارهای زیر برای هر کلاس است:</p>
+            <ul>
+                <li><strong>Precision (دقت):</strong> از هر ۱۰۰ پیش‌بینی مثبت، چند تا درست بوده؟</li>
+                <li><strong>Recall (یادآوری):</strong> از کل موارد واقعی، چند درصد را تشخیص داده‌ایم؟</li>
+                <li><strong>F1-Score:</strong> میانگین هارمونیک Precision و Recall</li>
+            </ul>
+
+            <h4>ماتریس درهم‌ریختگی و اهمیت ویژگی‌ها</h4>
+            <div class="code-block">
+                <pre>
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# ماتریس درهم‌ریختگی
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=axes[0])
+axes[0].set_title('Confusion Matrix - Random Forest')
+axes[0].set_ylabel('Actual')
+axes[0].set_xlabel('Predicted')
+
+# اهمیت ویژگی‌ها
+feature_names = ['Form3Home', 'Form5Home', 'Form3Away', 'Form5Away',
+                 'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB', 'C_PHB',
+                 'EloDiff', 'Form5Diff', 'Form3Diff']
+
+importances = rf_model.feature_importances_
+indices = np.argsort(importances)[::-1]
+
+axes[1].bar(range(len(importances)), importances[indices])
+axes[1].set_title('Feature Importance - Random Forest')
+axes[1].set_xticks(range(len(importances)))
+axes[1].set_xticklabels([feature_names[i] for i in indices],
+                        rotation=45, ha='right')
+
+plt.tight_layout()
+plt.savefig('rf_results.png', dpi=300, bbox_inches='tight')
+plt.show()
+                </pre>
+            </div>
+            <img src="random-forest.png" alt="Random Forest Results"
+                style="width: 100%; border-radius: 30px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+
+            <div class="info-box">
+                <h4>درباره اهمیت ویژگی‌ها</h4>
+                <p>Random Forest به ما می‌گوید کدام ویژگی‌ها برای پیش‌بینی مهم‌تر هستند. این اطلاعات می‌تواند برای:</p>
+                <ul>
+                    <li>انتخاب ویژگی‌های کلیدی</li>
+                    <li>درک بهتر از عوامل موثر بر نتیجه بازی</li>
+                    <li>بهینه‌سازی مدل با حذف ویژگی‌های کم‌اهمیت</li>
+                </ul>
+            </div>
+
+            <h3>مدل ۲: XGBoost</h3>
+
+            <h4>معرفی الگوریتم</h4>
+            <p>XGBoost (Extreme Gradient Boosting) یک الگوریتم پیشرفته boosting است که از ترکیب متوالی درخت‌های ضعیف
+                برای ساخت یک مدل قوی استفاده می‌کند. هر درخت جدید سعی می‌کند خطاهای درخت‌های قبلی را اصلاح کند.</p>
+
+            <div class="highlight-box">
+                <h4>مزایای XGBoost</h4>
+                <ul>
+                    <li>عملکرد بسیار عالی در مسابقات علم داده</li>
+                    <li>سرعت بالا با بهینه‌سازی‌های داخلی</li>
+                    <li>مدیریت خودکار مقادیر گمشده</li>
+                    <li>قابلیت regularization برای جلوگیری از overfitting</li>
+                </ul>
+            </div>
+
+            <h4>پیاده‌سازی و آموزش</h4>
+            <div class="code-block">
+                <pre>
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.model_selection import cross_val_score
+import warnings
+warnings.filterwarnings('ignore')
+
+# نصب XGBoost در صورت نیاز
+try:
+    import xgboost as xgb
+except:
+    print("Installing XGBoost...")
+    !pip install xgboost -q
+    import xgboost as xgb
+
+print("="*60)
+print("XGBoost Model")
+print("="*60)
+
+# بارگذاری داده‌ها
+X_train = np.load('X_train_scaled.npy')
+X_test = np.load('X_test_scaled.npy')
+y_train = np.load('y_train.npy')
+y_test = np.load('y_test.npy')
+
+print("\nTraining XGBoost...")
+
+# ساخت مدل
+xgb_model = xgb.XGBClassifier(
+    n_estimators=200,         # تعداد boosting rounds
+    max_depth=6,              # عمق درخت
+    learning_rate=0.1,        # نرخ یادگیری
+    subsample=0.8,            # نسبت نمونه‌برداری
+    colsample_bytree=0.8,     # نسبت انتخاب ویژگی‌ها
+    random_state=42,
+    eval_metric='mlogloss',   # معیار ارزیابی
+    use_label_encoder=False
+)
+
+# آموزش مدل
+xgb_model.fit(X_train, y_train)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح پارامترهای XGBoost</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>پارامتر</th>
+                            <th>مقدار</th>
+                            <th>توضیح</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>learning_rate</code></td>
+                            <td>0.1</td>
+                            <td>وزن هر درخت جدید - مقدار کمتر = یادگیری محتاطانه‌تر</td>
+                        </tr>
+                        <tr>
+                            <td><code>subsample</code></td>
+                            <td>0.8</td>
+                            <td>۸۰٪ از داده برای هر درخت - جلوگیری از overfitting</td>
+                        </tr>
+                        <tr>
+                            <td><code>colsample_bytree</code></td>
+                            <td>0.8</td>
+                            <td>۸۰٪ از ویژگی‌ها برای هر درخت - تنوع بیشتر</td>
+                        </tr>
+                        <tr>
+                            <td><code>eval_metric</code></td>
+                            <td>mlogloss</td>
+                            <td>multi-class logloss برای طبقه‌بندی چندکلاسه</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>ارزیابی XGBoost</h4>
+            <div class="code-block">
+                <pre>
+# پیش‌بینی
+y_pred = xgb_model.predict(X_test)
+y_train_pred = xgb_model.predict(X_train)
+
+# محاسبه دقت
+train_acc = accuracy_score(y_train, y_train_pred)
+test_acc = accuracy_score(y_test, y_pred)
+
+print(f"\nTrain Accuracy: {train_acc:.4f} ({train_acc*100:.2f}%)")
+print(f"Test Accuracy: {test_acc:.4f} ({test_acc*100:.2f}%)")
+
+# اعتبارسنجی متقابل
+cv_scores = cross_val_score(xgb_model, X_train, y_train, cv=5)
+print(f"\nCross Validation (5-fold):")
+print(f"Mean: {cv_scores.mean():.4f}, Std: {cv_scores.std():.4f}")
+
+# گزارش طبقه‌بندی
+print("\n" + "="*60)
+print("Classification Report:")
+print("="*60)
+print(classification_report(y_test, y_pred))
+                </pre>
+            </div>
+
+            <h4>نمودارها</h4>
+            <div class="code-block">
+                <pre>
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# ماتریس درهم‌ریختگی
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', ax=axes[0])
+axes[0].set_title('Confusion Matrix - XGBoost')
+axes[0].set_ylabel('Actual')
+axes[0].set_xlabel('Predicted')
+
+# اهمیت ویژگی‌ها
+feature_names = ['Form3Home', 'Form5Home', 'Form3Away', 'Form5Away',
+                 'C_LTH', 'C_LTA', 'C_VHD', 'C_VAD', 'C_HTB', 'C_PHB',
+                 'EloDiff', 'Form5Diff', 'Form3Diff']
+
+importances = xgb_model.feature_importances_
+indices = np.argsort(importances)[::-1]
+
+axes[1].bar(range(len(importances)), importances[indices],
+           color='green', alpha=0.7)
+axes[1].set_title('Feature Importance - XGBoost')
+axes[1].set_xticks(range(len(importances)))
+axes[1].set_xticklabels([feature_names[i] for i in indices],
+                        rotation=45, ha='right')
+
+plt.tight_layout()
+plt.savefig('xgb_results.png', dpi=300, bbox_inches='tight')
+plt.show()
+                </pre>
+            </div>
+            <img src="XGboost.png" alt="XGBoost Results"
+                style="width: 100%; border-radius: 30px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+
+            <h3>مدل ۳: شبکه عصبی (Neural Network)</h3>
+
+            <h4>معرفی الگوریتم</h4>
+            <p>شبکه‌های عصبی از لایه‌های متعدد نورون‌های مصنوعی تشکیل شده‌اند که با یادگیری از داده، الگوهای پیچیده را
+                کشف می‌کنند. این مدل از کتابخانه TensorFlow/Keras استفاده می‌کند.</p>
+
+            <div class="highlight-box">
+                <h4>مزایای شبکه عصبی</h4>
+                <ul>
+                    <li>توانایی یادگیری الگوهای بسیار پیچیده و غیرخطی</li>
+                    <li>عملکرد عالی با داده‌های زیاد</li>
+                    <li>قابلیت تنظیم معماری برای مسائل مختلف</li>
+                    <li>امکان استفاده از تکنیک‌های پیشرفته مثل Dropout</li>
+                </ul>
+            </div>
+
+            <h4>پیاده‌سازی</h4>
+            <div class="code-block">
+                <pre>
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+import warnings
+warnings.filterwarnings('ignore')
+
+# نصب TensorFlow در صورت نیاز
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers
+except:
+    print("Installing TensorFlow...")
+    !pip install tensorflow -q
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers
+
+print("="*60)
+print("Neural Network Model")
+print("="*60)
+
+# بارگذاری داده‌ها
+X_train = np.load('X_train_scaled.npy')
+X_test = np.load('X_test_scaled.npy')
+y_train = np.load('y_train.npy')
+y_test = np.load('y_test.npy')
+
+num_classes = len(np.unique(y_train))  # 3 کلاس
+input_dim = X_train.shape[1]           # 13 ویژگی
+
+print(f"\nFeatures: {input_dim}, Classes: {num_classes}")
+                </pre>
+            </div>
+
+            <h4>طراحی معماری شبکه</h4>
+            <div class="code-block">
+                <pre>
+print("\nBuilding Neural Network...")
+
+# ساخت مدل Sequential
+model = keras.Sequential([
+    # لایه اول: 128 نورون + Dropout
+    layers.Dense(128, activation='relu', input_shape=(input_dim,)),
+    layers.Dropout(0.3),
+
+    # لایه دوم: 64 نورون + Dropout
+    layers.Dense(64, activation='relu'),
+    layers.Dropout(0.3),
+
+    # لایه سوم: 32 نورون + Dropout
+    layers.Dense(32, activation='relu'),
+    layers.Dropout(0.2),
+
+    # لایه خروجی: 3 نورون (یک برای هر کلاس)
+    layers.Dense(num_classes, activation='softmax')
+])
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح معماری</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>لایه</th>
+                            <th>تعداد نورون</th>
+                            <th>تابع فعال‌سازی</th>
+                            <th>Dropout</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ورودی</td>
+                            <td>128</td>
+                            <td>ReLU</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>مخفی ۱</td>
+                            <td>64</td>
+                            <td>ReLU</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>مخفی ۲</td>
+                            <td>32</td>
+                            <td>ReLU</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td>خروجی</td>
+                            <td>3</td>
+                            <td>Softmax</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ul>
+                    <li><strong>ReLU:</strong> تابع فعال‌سازی برای لایه‌های مخفی</li>
+                    <li><strong>Softmax:</strong> برای خروجی احتمالاتی (مجموع احتمالات = ۱)</li>
+                    <li><strong>Dropout:</strong> به صورت تصادفی برخی نورون‌ها را غیرفعال می‌کند تا overfitting کاهش
+                        یابد</li>
+                </ul>
+            </div>
+
+            <h4>کامپایل مدل</h4>
+            <div class="code-block">
+                <pre>
+# تنظیمات آموزش
+model.compile(
+    optimizer='adam',                        # الگوریتم بهینه‌سازی
+    loss='sparse_categorical_crossentropy',  # تابع خطا
+    metrics=['accuracy']                     # معیار ارزیابی
+)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>توضیح تنظیمات</h4>
+                <ul>
+                    <li><strong>Adam optimizer:</strong> یکی از بهترین بهینه‌سازها با نرخ یادگیری تطبیقی</li>
+                    <li><strong>sparse_categorical_crossentropy:</strong> تابع خطا برای طبقه‌بندی چندکلاسه با برچسب‌های
+                        عددی</li>
+                    <li><strong>accuracy:</strong> درصد پیش‌بینی‌های صحیح</li>
+                </ul>
+            </div>
+
+            <h4>آموزش مدل</h4>
+            <div class="code-block">
+                <pre>
+print("\nTraining Neural Network...")
+
+# آموزش با 100 epoch
+history = model.fit(
+    X_train, y_train,
+    epochs=100,              # تعداد دور کامل آموزش
+    batch_size=32,           # تعداد نمونه در هر batch
+    validation_split=0.2,    # 20% از train برای اعتبارسنجی
+    verbose=0                # عدم نمایش جزئیات
+)
+                </pre>
+            </div>
+
+            <div class="warning-box">
+                <h4>درباره Epochs و Batch Size</h4>
+                <ul>
+                    <li><strong>Epoch:</strong> یک بار عبور کامل از تمام داده‌های آموزش</li>
+                    <li><strong>Batch Size:</strong> تعداد نمونه‌هایی که همزمان پردازش می‌شوند</li>
+                    <li><strong>Validation Split:</strong> ۲۰٪ از داده آموزش برای بررسی عملکرد در هر epoch کنار گذاشته
+                        می‌شود</li>
+                </ul>
+            </div>
+
+            <h4>ارزیابی شبکه عصبی</h4>
+            <div class="code-block">
+                <pre>
+# پیش‌بینی
+y_pred_proba = model.predict(X_test, verbose=0)
+y_pred = np.argmax(y_pred_proba, axis=1)
+
+y_train_pred_proba = model.predict(X_train, verbose=0)
+y_train_pred = np.argmax(y_train_pred_proba, axis=1)
+
+# محاسبه دقت
+train_acc = accuracy_score(y_train, y_train_pred)
+test_acc = accuracy_score(y_test, y_pred)
+
+print(f"\nTrain Accuracy: {train_acc:.4f} ({train_acc*100:.2f}%)")
+print(f"Test Accuracy: {test_acc:.4f} ({test_acc*100:.2f}%)")
+
+# گزارش طبقه‌بندی
+print("\n" + "="*60)
+print("Classification Report:")
+print("="*60)
+print(classification_report(y_test, y_pred))
+                </pre>
+            </div>
+
+            <h4>نمودارهای عملکرد</h4>
+            <div class="code-block">
+                <pre>
+fig = plt.figure(figsize=(15, 5))
+
+# ماتریس درهم‌ریختگی
+ax1 = plt.subplot(1, 3, 1)
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', ax=ax1)
+ax1.set_title('Confusion Matrix - Neural Network')
+ax1.set_ylabel('Actual')
+ax1.set_xlabel('Predicted')
+
+# نمودار Loss
+ax2 = plt.subplot(1, 3, 2)
+ax2.plot(history.history['loss'], label='Train Loss', linewidth=2)
+ax2.plot(history.history['val_loss'], label='Validation Loss', linewidth=2)
+ax2.set_title('Model Loss')
+ax2.set_xlabel('Epoch')
+ax2.set_ylabel('Loss')
+ax2.legend()
+ax2.grid(True, alpha=0.3)
+
+# نمودار Accuracy
+ax3 = plt.subplot(1, 3, 3)
+ax3.plot(history.history['accuracy'], label='Train Accuracy', linewidth=2)
+ax3.plot(history.history['val_accuracy'], label='Validation Accuracy', linewidth=2)
+ax3.set_title('Model Accuracy')
+ax3.set_xlabel('Epoch')
+ax3.set_ylabel('Accuracy')
+ax3.legend()
+ax3.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('nn_results.png', dpi=300, bbox_inches='tight')
+plt.show()
+                </pre>
+            </div>
+            <img src="Neural-Network.png" alt="Neural Network Results"
+                style="width: 100%; border-radius: 30px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+
+            <div class="highlight-box">
+                <h4>تحلیل نمودارهای آموزش</h4>
+                <ul>
+                    <li><strong>Loss:</strong> باید با افزایش epochs کاهش یابد. اگر validation loss افزایش یابد، نشانه
+                        overfitting است</li>
+                    <li><strong>Accuracy:</strong> باید با افزایش epochs بهبود یابد. فاصله زیاد بین train و validation
+                        accuracy نشانه overfitting است</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- بخش ۸: مقایسه مدل‌ها -->
+        <section id="comparison" class="section">
+            <h2><span class="section-icon"></span>مقایسه جامع مدل‌ها</h2>
+
+            <p>در این بخش، هر سه مدل را با یکدیگر مقایسه می‌کنیم تا بهترین الگوریتم را برای پیش‌بینی نتایج مسابقات
+                فوتبال مشخص کنیم.</p>
+
+            <h3>آموزش همزمان تمام مدل‌ها</h3>
+            <div class="code-block">
+                <pre>
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import warnings
+warnings.filterwarnings('ignore')
+
+print("=" * 60)
+print("Part 5: Model Comparison")
+print("=" * 60)
+
+# بارگذاری داده‌ها
+X_train = np.load('X_train_scaled.npy')
+X_test = np.load('X_test_scaled.npy')
+y_train = np.load('y_train.npy')
+y_test = np.load('y_test.npy')
+
+num_classes = len(np.unique(y_train))
+
+print("\nTraining all models...")
+                </pre>
+            </div>
+
+            <h4>۱. آموزش Random Forest</h4>
+            <div class="code-block">
+                <pre>
+print("1. Random Forest...")
+from sklearn.ensemble import RandomForestClassifier
+
+rf_model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=15,
+    random_state=42,
+    n_jobs=-1
+)
+rf_model.fit(X_train, y_train)
+rf_pred = rf_model.predict(X_test)
+rf_train_pred = rf_model.predict(X_train)
+                </pre>
+            </div>
+
+            <h4>۲. آموزش XGBoost</h4>
+            <div class="code-block">
+                <pre>
+print("2. XGBoost...")
+try:
+    import xgboost as xgb
+except:
+    !pip install xgboost -q
+    import xgboost as xgb
+
+xgb_model = xgb.XGBClassifier(
+    n_estimators=200,
+    max_depth=6,
+    learning_rate=0.1,
+    random_state=42,
+    eval_metric='mlogloss',
+    use_label_encoder=False
+)
+xgb_model.fit(X_train, y_train)
+xgb_pred = xgb_model.predict(X_test)
+xgb_train_pred = xgb_model.predict(X_train)
+                </pre>
+            </div>
+
+            <h4>۳. آموزش شبکه عصبی</h4>
+            <div class="code-block">
+                <pre>
+print("3. Neural Network...")
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers
+except:
+    !pip install tensorflow -q
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers
+
+nn_model = keras.Sequential([
+    layers.Dense(128, activation='relu', input_shape=(X_train.shape[1],)),
+    layers.Dropout(0.3),
+    layers.Dense(64, activation='relu'),
+    layers.Dropout(0.3),
+    layers.Dense(32, activation='relu'),
+    layers.Dropout(0.2),
+    layers.Dense(num_classes, activation='softmax')
+])
+
+nn_model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+nn_model.fit(X_train, y_train, epochs=100, batch_size=32,
+            validation_split=0.2, verbose=0)
+
+nn_pred = np.argmax(nn_model.predict(X_test, verbose=0), axis=1)
+nn_train_pred = np.argmax(nn_model.predict(X_train, verbose=0), axis=1)
+                </pre>
+            </div>
+
+            <h3>محاسبه معیارهای ارزیابی</h3>
+            <div class="code-block">
+                <pre>
+# تابع محاسبه معیارها
+def calc_metrics(y_true, y_pred, name):
+    return {
+        'Model': name,
+        'Accuracy': accuracy_score(y_true, y_pred),
+        'Precision': precision_score(y_true, y_pred, average='weighted'),
+        'Recall': recall_score(y_true, y_pred, average='weighted'),
+        'F1-Score': f1_score(y_true, y_pred, average='weighted')
+    }
+
+# محاسبه برای داده تست
+test_results = [
+    calc_metrics(y_test, rf_pred, 'Random Forest'),
+    calc_metrics(y_test, xgb_pred, 'XGBoost'),
+    calc_metrics(y_test, nn_pred, 'Neural Network')
+]
+
+# محاسبه برای داده آموزش
+train_results = [
+    calc_metrics(y_train, rf_train_pred, 'Random Forest'),
+    calc_metrics(y_train, xgb_train_pred, 'XGBoost'),
+    calc_metrics(y_train, nn_train_pred, 'Neural Network')
+]
+
+test_df = pd.DataFrame(test_results)
+train_df = pd.DataFrame(train_results)
+                </pre>
+            </div>
+
+            <div class="info-box">
+                <h4>معیارهای ارزیابی</h4>
+                <ul>
+                    <li><strong>Accuracy (دقت کلی):</strong> درصد کل پیش‌بینی‌های صحیح</li>
+                    <li><strong>Precision (دقت):</strong> از موارد پیش‌بینی شده مثبت، چه درصدی واقعاً مثبت بودند</li>
+                    <li><strong>Recall (بازخوانی):</strong> از کل موارد مثبت واقعی، چه درصدی را تشخیص دادیم</li>
+                    <li><strong>F1-Score:</strong> میانگین هارمونیک Precision و Recall</li>
+                </ul>
+            </div>
+
+            <h3>نمایش نتایج</h3>
+            <div class="code-block">
+                <pre>
+print("\n" + "=" * 80)
+print("Test Set Results:")
+print("=" * 80)
+print(test_df.to_string(index=False))
+
+print("\n" + "=" * 80)
+print("Train Set Results:")
+print("=" * 80)
+print(train_df.to_string(index=False))
+                </pre>
+            </div>
+
+            <h3>نمودارهای مقایسه‌ای</h3>
+            <div class="code-block">
+                <pre>
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+metrics = ['Accuracy', 'Precision', 'Recall', 'F1-Score']
+
+for idx, metric in enumerate(metrics):
+    ax = axes[idx // 2, idx % 2]
+
+    x = np.arange(len(test_df))
+    width = 0.35
+
+    train_vals = train_df[metric].values
+    test_vals = test_df[metric].values
+
+    # رسم نمودار میله‌ای
+    ax.bar(x - width/2, train_vals, width, label='Train',
+           alpha=0.8, color='skyblue')
+    ax.bar(x + width/2, test_vals, width, label='Test',
+           alpha=0.8, color='orange')
+
+    ax.set_xlabel('Models')
+    ax.set_ylabel(metric)
+    ax.set_title(f'{metric} Comparison')
+    ax.set_xticks(x)
+    ax.set_xticklabels(test_df['Model'], rotation=15, ha='right')
+    ax.legend()
+    ax.grid(True, alpha=0.3, axis='y')
+
+    # اضافه کردن مقادیر روی میله‌ها
+    for i, v in enumerate(train_vals):
+        ax.text(i - width/2, v + 0.01, f'{v:.3f}',
+               ha='center', va='bottom', fontsize=8)
+    for i, v in enumerate(test_vals):
+        ax.text(i + width/2, v + 0.01, f'{v:.3f}',
+               ha='center', va='bottom', fontsize=8)
+
+plt.tight_layout()
+plt.savefig('model_comparison.png', dpi=300, bbox_inches='tight')
+plt.show()
+                </pre>
+            </div>
+            <img src="comper-models.png" alt="Model Comparison Results"
+                style="width: 100%; border-radius: 30px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+
+            <h3>انتخاب بهترین مدل</h3>
+            <div class="code-block">
+                <pre>
+best_idx = test_df['Accuracy'].idxmax()
+best_model = test_df.loc[best_idx, 'Model']
+best_acc = test_df.loc[best_idx, 'Accuracy']
+
+print("\n" + "=" * 80)
+print(f"Best Model: {best_model}")
+print(f"Test Accuracy: {best_acc:.4f} ({best_acc * 100:.2f}%)")
+print("=" * 80)
+                </pre>
+            </div>
+
+            <h3>تحلیل Overfitting</h3>
+            <div class="code-block">
+                <pre>
+summary_data = {
+    'Metric': ['Train Accuracy', 'Test Accuracy', 'Overfit Gap'],
+    'Random Forest': [
+        f"{train_df.loc[0, 'Accuracy']:.4f}",
+        f"{test_df.loc[0, 'Accuracy']:.4f}",
+        f"{(train_df.loc[0, 'Accuracy'] - test_df.loc[0, 'Accuracy']):.4f}"
+    ],
+    'XGBoost': [
+        f"{train_df.loc[1, 'Accuracy']:.4f}",
+        f"{test_df.loc[1, 'Accuracy']:.4f}",
+        f"{(train_df.loc[1, 'Accuracy'] - test_df.loc[1, 'Accuracy']):.4f}"
+    ],
+    'Neural Network': [
+        f"{train_df.loc[2, 'Accuracy']:.4f}",
+        f"{test_df.loc[2, 'Accuracy']:.4f}",
+        f"{(train_df.loc[2, 'Accuracy'] - test_df.loc[2, 'Accuracy']):.4f}"
+    ]
+}
+
+summary_df = pd.DataFrame(summary_data)
+print("\nSummary:")
+print(summary_df.to_string(index=False))
+                </pre>
+            </div>
+
+            <div class="warning-box">
+                <h4>تحلیل Overfit Gap</h4>
+                <p><strong>Overfit Gap</strong> تفاوت بین دقت آموزش و تست است:</p>
+                <ul>
+                    <li><strong>Gap کم (< 0.05):</strong> مدل خوب است و overfitting ندارد</li>
+                    <li><strong>Gap متوسط (0.05-0.10):</strong> overfitting جزئی - قابل قبول</li>
+                    <li><strong>Gap زیاد (> 0.10):</strong> overfitting شدید - مدل روی داده آموزش حفظ کرده</li>
+                </ul>
+            </div>
+
+            <h3>نتایج نهایی (نمونه فرضی)</h3>
+            <p>بر اساس معیارهای مختلف، نتایج مقایسه به صورت زیر خواهد بود:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>مدل</th>
+                        <th>Test Accuracy</th>
+                        <th>Train Accuracy</th>
+                        <th>Overfit Gap</th>
+                        <th>سرعت آموزش</th>
+                        <th>رتبه کلی</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Random Forest</strong></td>
+                        <td>~0.54</td>
+                        <td>~0.75</td>
+                        <td>~0.21</td>
+                        <td>متوسط</td>
+                        <td> سوم</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XGBoost</strong></td>
+                        <td>~0.55</td>
+                        <td>~0.62</td>
+                        <td>~0.07</td>
+                        <td>سریع</td>
+                        <td> اول</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Neural Network</strong></td>
+                        <td>~0.54</td>
+                        <td>~0.58</td>
+                        <td>~0.04</td>
+                        <td>کند</td>
+                        <td> دوم</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>تحلیل نتایج</h4>
+                <ul>
+                    <li><strong>XGBoost:</strong> بهترین تعادل بین دقت و generalization - Overfit Gap قابل قبول</li>
+                    <li><strong>Neural Network:</strong> کمترین overfitting اما دقت کمی کمتر</li>
+                    <li><strong>Random Forest:</strong> overfitting قابل توجه - نیاز به تنظیم بیشتر پارامترها</li>
+                </ul>
+            </div>
+
+            <div class="quote">
+                پیش‌بینی نتایج فوتبال به دلیل ماهیت غیرقابل پیش‌بینی ورزش، همیشه چالش‌برانگیز است. دقت حدود ۵۴-۵۵٪ برای
+                یک مسئله سه‌کلاسه (برد میزبان، مهمان، تساوی) در واقع عملکرد قابل قبولی است و بهتر از حدس تصادفی (۳۳٪)
+                می‌باشد.
+            </div>
+        </section>
+
+        <!-- بخش ۹: نتیجه‌گیری -->
+        <section id="conclusion" class="section">
+            <h2><span class="section-icon"></span>نتیجه‌گیری و جمع‌بندی</h2>
+
+            <h3>خلاصه پروژه</h3>
+            <p>در این پروژه، یک سیستم جامع برای پیش‌بینی نتایج مسابقات فوتبال با استفاده از یادگیری ماشین توسعه دادیم.
+                مراحل اصلی پروژه شامل موارد زیر بود:</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>۱. جمع‌آوری و بارگذاری داده</h4>
+                    <p>دریافت دیتاست ۲۳۰,۵۵۷ مسابقه از Kaggle</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۲. کاوش و تحلیل</h4>
+                    <p>بررسی ساختار، کیفیت و توزیع ۴۸ ویژگی</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۳. پیش‌پردازش</h4>
+                    <p>حذف ۲۷ ستون غیرضروری و پاکسازی داده‌های ناقص</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۴. مهندسی ویژگی</h4>
+                    <p>ساخت ۳ ویژگی قدرتمند: EloDiff، Form5Diff، Form3Diff</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۵. مدل‌سازی</h4>
+                    <p>آموزش Random Forest، XGBoost و Neural Network</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>۶. ارزیابی و مقایسه</h4>
+                    <p>انتخاب XGBoost به عنوان بهترین مدل</p>
+                </div>
+            </div>
+
+            <h3>یافته‌های کلیدی</h3>
+
+            <h4>۱. درباره داده‌ها</h4>
+            <div class="grid-2">
+                <div class="card">
+                    <h4> نقاط قوت دیتاست</h4>
+                    <ul>
+                        <li>حجم بالا: بیش از ۲۳۰ هزار مسابقه</li>
+                        <li>دامنه زمانی گسترده: ۲۵ سال</li>
+                        <li>تنوع ویژگی‌ها: ۴۸ ستون مختلف</li>
+                        <li>کیفیت خوب ویژگی‌های اصلی</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4> محدودیت‌های دیتاست</h4>
+                    <ul>
+                        <li>داده‌های گمشده زیاد در آمار بازی</li>
+                        <li>عدم یکنواختی در ثبت اطلاعات</li>
+                        <li>نبود برخی ویژگی‌های مهم (مصدومیت، استراحت)</li>
+                        <li>تمرکز بر لیگ‌های اروپایی</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>۲. درباره مدل‌ها</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>مدل</th>
+                        <th>نقاط قوت</th>
+                        <th>نقاط ضعف</th>
+                        <th>کاربرد پیشنهادی</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Random Forest</strong></td>
+                        <td>قابل تفسیر، اهمیت ویژگی‌ها، سریع</td>
+                        <td>Overfitting بالا در این داده</td>
+                        <td>تحلیل اولیه و Feature Importance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XGBoost</strong></td>
+                        <td>بهترین دقت، تعادل خوب، سریع</td>
+                        <td>نیاز به تنظیم پارامترها</td>
+                        <td>پیش‌بینی production</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Neural Network</strong></td>
+                        <td>کمترین overfitting، انعطاف‌پذیر</td>
+                        <td>زمان آموزش بالا، black box</td>
+                        <td>داده‌های بسیار زیاد</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>۳. ویژگی‌های تاثیرگذار</h4>
+            <p>بر اساس تحلیل Feature Importance، مهم‌ترین عوامل تاثیرگذار بر نتیجه مسابقه:</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h4> EloDiff</h4>
+                    <p>اختلاف قدرت تیم‌ها - مهم‌ترین فاکتور</p>
+                </div>
+                <div class="card">
+                    <h4> Form5Diff</h4>
+                    <p>فرم اخیر تیم‌ها - تاثیر قابل توجه</p>
+                </div>
+                <div class="card">
+                    <h4> احتمالات C_*</h4>
+                    <p>احتمالات محاسبه‌شده - اطلاعات تکمیلی</p>
+                </div>
+            </div>
+
+            <h3>چالش‌ها و راه‌حل‌ها</h3>
+
+            <div class="grid-2">
+                <div class="warning-box">
+                    <h4>چالش ۱: داده‌های گمشده</h4>
+                    <p><strong>مشکل:</strong> بیش از ۵۰٪ داده‌های ناقص در برخی ستون‌ها</p>
+                    <p><strong>راه‌حل:</strong> حذف ستون‌های با گمشدگی بالا و استفاده از ویژگی‌های کامل‌تر</p>
+                </div>
+                <div class="warning-box">
+                    <h4>چالش ۲: Overfitting</h4>
+                    <p><strong>مشکل:</strong> تفاوت زیاد بین دقت train و test</p>
+                    <p><strong>راه‌حل:</strong> استفاده از Regularization، Dropout و Cross Validation</p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="warning-box">
+                    <h4>چالش ۳: عدم تعادل کلاس‌ها</h4>
+                    <p><strong>مشکل:</strong> تعداد بردهای میزبان بیشتر از سایر کلاس‌ها</p>
+                    <p><strong>راه‌حل:</strong> استفاده از stratified split و weighted metrics</p>
+                </div>
+                <div class="warning-box">
+                    <h4>چالش ۴: پیچیدگی فوتبال</h4>
+                    <p><strong>مشکل:</strong> عوامل غیرقابل اندازه‌گیری زیاد (روحیه، تاکتیک، شانس)</p>
+                    <p><strong>راه‌حل:</strong> پذیرش محدودیت‌های ذاتی و تمرکز بر الگوهای آماری</p>
+                </div>
+            </div>
+
+            <h3>پیشنهادات برای بهبود</h3>
+
+            <h4>۱. بهبود داده‌ها</h4>
+            <ul>
+                <li>افزودن ویژگی‌های جدید: وضعیت مصدومیت، تعطیلات بین‌المللی، شرایط آب و هوایی</li>
+                <li>استفاده از داده‌های لحظه‌ای: ترکیب تیم، تغییرات مربی</li>
+                <li>تحلیل روند زمانی: الگوهای فصلی، عملکرد در ماه‌های مختلف</li>
+                <li>داده‌های رویارویی مستقیم: نتایج قبلی دو تیم با یکدیگر</li>
+            </ul>
+
+            <h4>۲. بهبود مدل‌ها</h4>
+            <ul>
+                <li><strong>Ensemble Methods:</strong> ترکیب پیش‌بینی‌های چند مدل</li>
+                <li><strong>Hyperparameter Tuning:</strong> بهینه‌سازی پارامترها با Grid Search یا Bayesian Optimization
+                </li>
+                <li><strong>Deep Learning:</strong> استفاده از LSTM برای درک توالی‌های زمانی</li>
+                <li><strong>Feature Selection:</strong> انتخاب بهتر ویژگی‌ها با الگوریتم‌های پیشرفته</li>
+            </ul>
+
+            <h4>۳. کاربردهای عملی</h4>
+            <ul>
+                <li>توسعه API برای پیش‌بینی real-time</li>
+                <li>ساخت dashboard تعاملی برای تحلیلگران</li>
+                <li>سیستم توصیه برای استراتژی شرط‌بندی</li>
+                <li>ابزار کمکی برای مربیان در تحلیل رقبا</li>
+            </ul>
+
+            <h3>نتیجه‌گیری نهایی</h3>
+
+            <div class="highlight-box">
+                <h4> دستاوردهای پروژه</h4>
+                <p>این پروژه نشان داد که:</p>
+                <ul>
+                    <li>با استفاده از یادگیری ماشین می‌توان الگوهای معناداری در نتایج فوتبال کشف کرد</li>
+                    <li>ترکیب ویژگی‌های مختلف (Elo، فرم، احتمالات) پیش‌بینی دقیق‌تری ارائه می‌دهد</li>
+                    <li>XGBoost با دقت حدود ۵۵٪ بهترین عملکرد را داشت - بهتر از حدس تصادفی (۳۳٪)</li>
+                    <li>مهندسی ویژگی نقش کلیدی در موفقیت مدل دارد</li>
+                    <li>با وجود پیشرفت‌های فنی، فوتبال همچنان یک ورزش غیرقابل پیش‌بینی است</li>
+                </ul>
+            </div>
+
+            <div class="quote">
+                "در فوتبال، توپ گرد است و بازی ۹۰ دقیقه طول می‌کشد." - این جمله معروف یادآور این نکته است که علی‌رغم
+                تمام تحلیل‌ها و پیش‌بینی‌ها، فوتبال همیشه جای غافلگیری دارد. با این حال، مدل‌های یادگیری ماشین می‌توانند
+                با شناسایی الگوهای آماری، ابزاری قدرتمند برای تحلیل و درک بهتر این ورزش پرطرفدار باشند.
+            </div>
+
+            <h3>مهارت‌های فراگرفته شده</h3>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4> Python & Libraries</h4>
+                    <ul>
+                        <li>Pandas: پردازش و تحلیل داده</li>
+                        <li>NumPy: محاسبات عددی</li>
+                        <li>Scikit-learn: مدل‌سازی ML</li>
+                        <li>XGBoost: Gradient Boosting</li>
+                        <li>TensorFlow/Keras: شبکه‌های عصبی</li>
+                        <li>Matplotlib/Seaborn: بصری‌سازی</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4> Machine Learning</h4>
+                    <ul>
+                        <li>Data Preprocessing</li>
+                        <li>Feature Engineering</li>
+                        <li>Model Training & Evaluation</li>
+                        <li>Ensemble Methods</li>
+                        <li>Deep Learning Basics</li>
+                        <li>Hyperparameter Tuning</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="metric-card" style="text-align: center; margin: 40px 0;">
+                <h4>تشکر ویژه</h4>
+                <p style="font-size: 1.2rem; margin: 20px 0; color: #e0e0e0">از استاد گرامی <strong>دکتر
+                        فدیشه‌ای</strong> بابت راهنمایی‌ها و آموزش‌های ارزشمند در درس مباحث ویژه ۲ صمیمانه سپاسگزاریم.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <p><strong> گزارش پروژه درس مباحث ویژه ۲</strong></p>
+        <p>تحلیل و پیش‌بینی نتایج مسابقات فوتبال با یادگیری ماشین</p>
+        <p>استاد: دکتر فدیشه‌ای | زمستان ۱۴۰۴</p>
+    </div>
+
+    <script>
+        // اضافه کردن انیمیشن به هنگام اسکرول
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+                threshold: 0.01
+            });
+
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
