@@ -1,2 +1,12 @@
 # artarazaz.github.io
-Personal portfolio website built with HTML/CSS
+# Portfolio Website
+
+Personal portfolio website.
+
+## Live Demo
+https://artarazaz.github.io
+
+## Technologies
+- HTML
+- CSS
+- JavaScript
