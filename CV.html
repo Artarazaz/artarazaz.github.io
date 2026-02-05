@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali-Asghar Razazpour - Academic CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <a href="https://artarazaz.github.io/index.html" class="language-toggle">Home</a>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="https://artarazaz.github.io/index.html">Home</a>
+            <a href="https://artarazaz.github.io/projects.html">Projects</a>
+            <a href="https://artarazaz.github.io/CV.html" class="active">CV</a>
+        </nav>
+    </div>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger-btn').classList.toggle('active');
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.querySelector('.hamburger-btn').classList.remove('active');
+                document.getElementById('navMenu').classList.remove('open');
+            }
+        });
+    </script>
+
+
+    <div class="cv-page">
+        <h1>Ali-Asghar Razazpour</h1>
+        <div class="contact">
+            Bojnurd, North Khorasan, Iran (Willing to relocate to Tehran or internationally)<br>
+            +98 915 326 7076 | <a href="mailto:Ali_razaz@icloud.com">Ali_razaz@icloud.com</a><br>
+            LinkedIn: <a href="https://www.linkedin.com/in/artarazaz/">linkedin.com/in/artarazaz</a><br>
+            GitHub: <a href="https://github.com/Artarazaz">github.com/Artarazaz</a><br>
+            Personal Website: <a href="https://artarazaz.github.io">artarazaz.github.io</a>
+        </div>
+
+        <h2>Professional Summary</h2>
+        <p class="summary">
+            Recent Computer Engineering graduate (February 2026) with strong independent research experience in machine
+            learning, predictive modeling, and bio-inspired algorithms. Developed novel approaches including a
+            DNA-inspired
+            solver for N-Queens (outperforming genetic algorithms for small-to-medium N) and fine-tuned LLMs for
+            personality
+            simulation. Passionate about applying ML to real-world domains such as sports analytics and optimization
+            problems. Seeking Master's admission in AI/ML/Data Science to contribute to innovative research teams
+            through
+            RA/TA positions.
+        </p>
+
+        <h2>Research Interests</h2>
+        <ul>
+            <li>Machine Learning & Predictive Modeling</li>
+            <li>Bio-inspired / Nature-Inspired Algorithms for Combinatorial Optimization</li>
+            <li>Sports Analytics & Big Data Applications in Sports</li>
+            <li>Computer Vision & Multimodal AI Models</li>
+        </ul>
+
+        <h2>Education</h2>
+        <p><span class="strong">B.Sc. in Computer Engineering</span><br>
+            University of Bojnurd, Iran<br>
+            Graduated: February 2026 (9 semesters)<br>
+            GPA: 15.37/20<br>
+            Entrance Ranking: 16th out of 60 (Top ~27%)<br>
+            Relevant Coursework: Machine Learning, Artificial Intelligence, Data Structures & Algorithms, Database
+            Systems,
+            Advanced Programming</p>
+
+        <h2>Research & Project Experience</h2>
+
+        <p class="project-title">Fine-tuning Large Language Models for Personality Simulation <span
+                class="italic">(Bachelor's Thesis / Senior Project)</span></p>
+        <p class="italic">University of Bojnurd, 2025–2026</p>
+        <ul>
+            <li>Fine-tuned transformer-based language models to generate contextually coherent responses mimicking
+                narcissistic behavioral and linguistic patterns.</li>
+            <li>Designed and processed synthetic + real conversational datasets; implemented training pipelines with
+                hyperparameter optimization.</li>
+            <li>Evaluated model qualitatively (coherence, style fidelity) and quantitatively (perplexity, similarity
+                metrics).</li>
+            <li>Technologies: Python, Hugging Face Transformers, PyTorch/TensorFlow, Pandas, Jupyter.</li>
+            <li>Outcome: Demonstrated effective personality-aware text generation — foundational work for affective
+                computing and behavioral AI.</li>
+        </ul>
+
+        <p class="project-title">DNA-Inspired Deterministic Algorithm for N-Queens Problem</p>
+        <p class="italic">Independent Research Project, 2024–2025</p>
+        <ul>
+            <li>Invented a novel bio-inspired algorithm leveraging DNA base-pairing rules to deterministically enumerate
+                all
+                valid solutions.</li>
+            <li>Achieved complete enumeration of all 92 solutions for N=8; outperformed standard genetic algorithms for
+                N ≤
+                20.</li>
+            <li>Ongoing optimization for scalability to larger boards.</li>
+            <li>Technologies: Python, algorithmic design & optimization.</li>
+            <li>GitHub: <a
+                    href="https://github.com/Artarazaz/the-question-of-8-Queens">github.com/Artarazaz/the-question-of-8-Queens</a>
+            </li>
+        </ul>
+
+        <p class="project-title">Predictive Modeling of Football Match Outcomes</p>
+        <p class="italic">Independent / Academic Project, 2024–2025</p>
+        <ul>
+            <li>Engineered end-to-end ML pipeline analyzing 20+ years of European football data for win/draw/loss
+                prediction.</li>
+            <li>Performed feature engineering and trained ensemble models (Random Forest, XGBoost).</li>
+            <li>Improved prediction performance over naive baselines via cross-validation and tuning.</li>
+            <li>Technologies: Python, Pandas, Scikit-learn, XGBoost, Matplotlib, Jupyter.</li>
+        </ul>
+
+        <h2>Technical Skills</h2>
+        <ul>
+            <li><span class="strong">Programming:</span> Python (Advanced), Java (Intermediate), Git (Advanced), Jupyter
+                Notebook/Lab (Advanced)</li>
+            <li><span class="strong">Machine Learning & Data:</span> ML Algorithms (Strong: Random Forest, XGBoost,
+                Ensembles), Scikit-learn (Good), Hugging Face Transformers (Good), TensorFlow / PyTorch (Intermediate),
+                Pandas (Good), NumPy (Intermediate), SQL (Good), Matplotlib (Intermediate)</li>
+            <li><span class="strong">Languages:</span> English – Upper-Intermediate (strong technical reading/writing),
+                German – Beginner</li>
+        </ul>
+
+        <h2>Additional Strengths</h2>
+        <ul>
+            <li>Independent & self-directed research on multiple ML/algorithmic projects</li>
+            <li>Creative problem-solving for classic hard problems and real-domain applications</li>
+            <li>Technical communication through Jupyter notebooks and academic presentations</li>
+            <li>Hands-on experience with real-world and synthetic datasets</li>
+            <li>Strong self-management using Git and iterative development</li>
+        </ul>
+
+        <p class="cv-footer">
+            References available upon request.
+        </p>
+    </div>
+</body>
+
+</html>

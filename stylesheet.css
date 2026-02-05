@@ -117,31 +117,186 @@ a:hover {
     color: var(--accent-hover);
 }
 
-/* Language Toggle */
+/* Language Toggle - Liquid Glass Design */
 .language-toggle {
     position: fixed;
     top: 24px;
     left: 24px;
+    right: auto;
+    /* Prevent RTL flip */
     z-index: 1000;
-    padding: 8px 20px;
-    background: var(--overlay);
+    padding: 10px 24px;
+
+    /* Liquid Glass Effect */
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-pill);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.3s ease;
     cursor: pointer;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+}
+
+/* Hamburger Menu - Liquid Glass Design */
+.hamburger-menu {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    left: auto;
+    /* Prevent RTL flip */
+    z-index: 1001;
+}
+
+.hamburger-btn {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.nav-menu {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    left: auto;
+    min-width: 200px;
+    background: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm) 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.nav-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-menu a {
+    display: block;
+    padding: 12px 24px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-menu a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu a.active {
+    color: var(--accent-color);
+}
+
+/* RTL support for hamburger menu */
+[dir="rtl"] .hamburger-menu {
+    right: 24px;
+    left: auto;
+}
+
+[dir="rtl"] .nav-menu {
+    right: 24px;
+    left: auto;
+}
+
+.language-toggle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.language-toggle:hover::before {
+    width: 200px;
+    height: 200px;
 }
 
 .language-toggle:hover {
-    color: var(--text-primary);
-    background: rgba(29, 29, 31, 0.92);
+    color: white;
+    background: rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
-    border-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 8px 25px 0 rgba(31, 38, 135, 0.35),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.language-toggle:active {
+    transform: scale(1);
+    box-shadow:
+        0 2px 10px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 /* Hero Section */
@@ -203,22 +358,55 @@ a:hover {
     opacity: 0;
 }
 
+/* Meta Tags - Liquid Glass Design */
 .hero .meta-tag {
+    position: relative;
     font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    background: var(--surface-elevated);
-    padding: 8px 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+
+    /* Liquid Glass Effect */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
     border-radius: var(--radius-pill);
-    border: 0.5px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.hero .meta-tag::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.hero .meta-tag:hover::before {
+    width: 200px;
+    height: 200px;
 }
 
 .hero .meta-tag:hover {
-    background: var(--surface-color);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 25px 0 rgba(31, 38, 135, 0.35),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* Navigation */
@@ -334,13 +522,22 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
+/* Bento Cards - Liquid Glass Design */
 .bento-card {
-    background: var(--surface-elevated);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-lg);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
     position: relative;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+
+    /* Liquid Glass Effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
 }
 
@@ -348,27 +545,56 @@ a:hover {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    opacity: 0;
-    transition: var(--transition-smooth);
-}
-
-.bento-card:hover {
-    transform: translateY(-8px);
-    background: var(--surface-color);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-xl);
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: left 0.7s;
 }
 
 .bento-card:hover::before {
-    opacity: 1;
+    left: 100%;
+}
+
+.bento-card:hover {
+    transform: translateY(-12px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 16px 48px 0 rgba(31, 38, 135, 0.45),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
 }
 
 .bento-card.large {
     grid-column: span 2;
+}
+
+/* Better text readability on liquid glass */
+.bento-card .card-title,
+.bento-card h3 {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bento-card .card-desc,
+.bento-card p {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bento-card .badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bento-card a {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .card-icon {
@@ -1073,4 +1299,101 @@ code {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* RTL Fix: Keep language toggle on visual left */
+[dir="rtl"] .language-toggle {
+    left: 24px;
+    right: auto;
+}
+
+/* =========================================
+   CV Page Styles
+   ========================================= */
+
+.cv-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.cv-page h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(180deg, #ffffff 0%, #a8a8a8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cv-page .contact {
+    font-size: 17px;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.cv-page .contact a {
+    color: var(--accent-color);
+}
+
+.cv-page .contact a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+.cv-page h2 {
+    font-size: clamp(24px, 4vw, 32px);
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-xs);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+.cv-page ul {
+    padding-left: var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+    color: var(--text-secondary);
+}
+
+.cv-page li {
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.6;
+}
+
+.cv-page .project-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 19px;
+}
+
+.cv-page .italic {
+    font-style: italic;
+    color: var(--text-tertiary);
+}
+
+.cv-page .strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cv-page .summary {
+    font-size: 17px;
+    margin-bottom: var(--spacing-lg);
+    text-align: justify;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.cv-page p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.cv-footer {
+    margin-top: var(--spacing-xl);
+    font-size: 15px;
+    color: var(--text-tertiary);
+    text-align: center;
 }

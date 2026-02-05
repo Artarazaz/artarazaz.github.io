@@ -15,6 +15,34 @@
 </head>
 
 <body>
+    <a href=".https://artarazaz.github.io/index.html" class="language-toggle">خانه</a>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="https://artarazaz.github.io/index.html">خانه</a>
+            <a href="https://artarazaz.github.io/projects.html">پروژه‌ها</a>
+            <a href="https://artarazaz.github.io/CV.html">رزومه</a>
+        </nav>
+    </div>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger-btn').classList.toggle('active');
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.querySelector('.hamburger-btn').classList.remove('active');
+                document.getElementById('navMenu').classList.remove('open');
+            }
+        });
+    </script>
+
     <div class="hero">
         <h1> گزارش جامع پروژه تحلیل داده‌های مسابقات فوتبال</h1>
         <p class="subtitle">تحلیل و پیش‌بینی نتایج مسابقات فوتبال باشگاهی با استفاده از الگوریتم‌های یادگیری ماشین</p>

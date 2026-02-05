@@ -117,31 +117,150 @@ a:hover {
     color: var(--accent-hover);
 }
 
-/* Language Toggle */
+/* Language Toggle - Liquid Glass */
 .language-toggle {
     position: fixed;
     top: 24px;
     left: 24px;
+    right: auto;
     z-index: 1000;
-    padding: 8px 20px;
-    background: var(--overlay);
+    padding: 10px 24px;
+
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-pill);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
     cursor: pointer;
-    letter-spacing: 0.01em;
 }
 
 .language-toggle:hover {
-    color: var(--text-primary);
-    background: rgba(29, 29, 31, 0.92);
+    color: white;
+    background: rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
-    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Hamburger Menu - Liquid Glass */
+.hamburger-menu {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    left: auto;
+    z-index: 1001;
+}
+
+.hamburger-btn {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.nav-menu {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    left: auto;
+    min-width: 200px;
+    background: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm) 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.nav-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-menu a {
+    display: block;
+    padding: 12px 24px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-menu a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu a.active {
+    color: var(--accent-color);
+}
+
+/* RTL support */
+[dir="rtl"] .hamburger-menu {
+    right: 24px;
+    left: auto;
+}
+
+[dir="rtl"] .nav-menu {
+    right: 24px;
+    left: auto;
 }
 
 /* Hero Section */
@@ -203,21 +322,26 @@ a:hover {
     opacity: 0;
 }
 
+.hero .meta-info span,
 .hero .meta-tag {
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-primary);
-    background: var(--surface-elevated);
-    padding: 8px 16px;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 10px 20px;
     border-radius: var(--radius-pill);
-    border: 0.5px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
 }
 
+.hero .meta-info span:hover,
 .hero .meta-tag:hover {
-    background: var(--surface-color);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
 }
 
@@ -335,36 +459,27 @@ a:hover {
 }
 
 .bento-card {
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.2),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-.bento-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    opacity: 0;
-    transition: var(--transition-smooth);
-}
-
 .bento-card:hover {
     transform: translateY(-8px);
-    background: var(--surface-color);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-xl);
-}
-
-.bento-card:hover::before {
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 .bento-card.large {
@@ -406,17 +521,25 @@ a:hover {
 }
 
 .card {
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.2),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-lg);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 .card h4 {
@@ -452,25 +575,30 @@ a:hover {
     font-weight: 600;
 }
 
-/* Info Boxes */
+/* Info Boxes - Liquid Glass */
 .info-box,
 .highlight-box,
 .warning-box {
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     margin: var(--spacing-lg) 0;
-    border: 0.5px solid;
-    backdrop-filter: blur(10px);
+    border: 1px solid;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
 }
 
 .info-box {
-    background: rgba(0, 113, 227, 0.08);
-    border-color: rgba(0, 113, 227, 0.3);
+    background: rgba(0, 113, 227, 0.12);
+    border-color: rgba(0, 113, 227, 0.4);
 }
 
 .highlight-box {
-    background: rgba(52, 199, 89, 0.08);
-    border-color: rgba(52, 199, 89, 0.3);
+    background: rgba(52, 199, 89, 0.12);
+    border-color: rgba(52, 199, 89, 0.4);
 }
 
 .warning-box {
@@ -507,18 +635,26 @@ a:hover {
 }
 
 .metric-card {
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    border: 0.5px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
     text-align: center;
-    transition: var(--transition-smooth);
+    transition: all 0.3s ease;
 }
 
 .metric-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-lg);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 .metric-card h4 {
@@ -561,26 +697,31 @@ a:hover {
     transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Tables */
+/* Tables - Liquid Glass */
 table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     margin: var(--spacing-lg) 0;
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 0.5px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
 }
 
 th {
     text-align: right;
-    color: var(--text-secondary);
+    color: white;
     font-size: 15px;
     font-weight: 600;
     padding: var(--spacing-md);
-    background: var(--surface-color);
-    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -680,10 +821,15 @@ code {
     padding: var(--spacing-md);
     padding-right: var(--spacing-xl);
     margin-bottom: var(--spacing-lg);
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: var(--radius-lg);
-    border: 0.5px solid var(--border-color);
-    transition: var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
 }
 
 .timeline-item::before {
@@ -697,13 +843,16 @@ code {
     background: var(--accent-color);
     border-radius: 50%;
     border: 2px solid var(--bg-color);
-    box-shadow: 0 0 0 4px var(--surface-elevated);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
 .timeline-item:hover {
     transform: translateX(-8px);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: var(--shadow-lg);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
 }
 
 .timeline-item h4 {
@@ -720,7 +869,9 @@ code {
 
 /* Quote */
 .quote {
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-right: 4px solid var(--accent-color);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
@@ -730,6 +881,12 @@ code {
     color: var(--text-secondary);
     line-height: 1.58824;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* keep the right border distinct */
+    border-right: 4px solid var(--accent-color);
+    box-shadow:
+        0 4px 15px 0 rgba(31, 38, 135, 0.1),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
 }
 
 .quote::before {
@@ -751,30 +908,39 @@ code {
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.02em;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .badge.primary {
-    background: rgba(0, 113, 227, 0.15);
+    background: rgba(0, 113, 227, 0.2);
     color: var(--accent-color);
+    border-color: rgba(0, 113, 227, 0.3);
 }
 
 .badge.secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.12);
     color: var(--text-secondary);
 }
 
 .badge.gray {
-    background: rgba(142, 142, 147, 0.15);
+    background: rgba(142, 142, 147, 0.2);
     color: var(--text-secondary);
 }
 
 /* Nav Section (Table of Contents) */
 .nav-section {
-    background: var(--surface-elevated);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
-    border: 0.5px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .nav-section h2 {
@@ -810,12 +976,14 @@ code {
 
 /* Footer */
 .footer {
-    background: var(--surface-elevated);
+    background: rgba(25, 25, 25, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     padding: var(--spacing-xxl) var(--spacing-md);
     text-align: center;
     color: var(--text-secondary);
     font-size: 14px;
-    border-top: 0.5px solid var(--border-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin-top: var(--spacing-xxl);
 }
 

@@ -11,48 +11,37 @@
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="stylesheet.css">
-    <style>
-        /* Specific styles for the homepage banner if needed, 
-           inheriting mostly from stylesheet.css */
-        .project-banner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: inherit;
-        }
 
-        .project-banner-content {
-            flex: 1;
-        }
-
-        .project-banner-image {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #0071e3, #00c4ff);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: var(--spacing-md);
-            font-size: 40px;
-            color: white;
-        }
-
-        .hero-mini {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: var(--spacing-xl) var(--spacing-md);
-        }
-    </style>
 </head>
 
 <body>
-    <a href="index.html" class="language-toggle">Fa</a>
+    <a href="index.html" class="language-toggle">Farsi</a>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="https://artarazaz.github.io/index_en.html" class="active">Home</a>
+            <a href="https://artarazaz.github.io/projects.html">Projects</a>
+            <a href="https://artarazaz.github.io/CV.html">CV</a>
+        </nav>
+    </div>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger-btn').classList.toggle('active');
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.querySelector('.hamburger-btn').classList.remove('active');
+                document.getElementById('navMenu').classList.remove('open');
+            }
+        });
+    </script>
 
     <div class="hero-mini hero">
         <h1>Ali Asghar Razazpour</h1>

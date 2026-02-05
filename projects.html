@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>علی‌اصغر رزازپور | پورتفولیو</title>
+    <title>پروژه‌ها | علی‌اصغر رزازپور</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="stylesheet.css">
-
 </head>
 
 <body>
-    <a href="index_en.html" class="language-toggle">English</a>
+    <a href="index.html" class="language-toggle">خانه</a>
 
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
@@ -25,8 +24,8 @@
             <span></span>
         </button>
         <nav class="nav-menu" id="navMenu">
-            <a href="https://artarazaz.github.io/index.html" class="active">خانه</a>
-            <a href="https://artarazaz.github.io/projects.html">پروژه‌ها</a>
+            <a href="https://artarazaz.github.io/index.html">خانه</a>
+            <a href="https://artarazaz.github.io/projects.html" class="active">پروژه‌ها</a>
             <a href="https://artarazaz.github.io/CV.html">رزومه</a>
         </nav>
     </div>
@@ -35,7 +34,6 @@
             document.querySelector('.hamburger-btn').classList.toggle('active');
             document.getElementById('navMenu').classList.toggle('open');
         }
-        // Close menu when clicking outside
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.hamburger-menu')) {
                 document.querySelector('.hamburger-btn').classList.remove('active');
@@ -45,22 +43,12 @@
     </script>
 
     <div class="hero-mini hero">
-        <h1>علی‌اصغر رزازپور</h1>
-        <p class="subtitle">دانشجوی مهندسی کامپیوتر و علاقه‌مند به هوش مصنوعی و تحلیل داده</p>
-        <div class="meta-info">
-            <span class="meta-tag">Machine Learning</span>
-            <span class="meta-tag">Data Science</span>
-            <span class="meta-tag">Web Development</span>
-        </div>
+        <h1>پروژه‌های من</h1>
+        <p class="subtitle">مجموعه‌ای از کارهای علمی و عملی در حوزه هوش مصنوعی و تحلیل داده</p>
     </div>
 
     <div class="container">
         <section class="section visible" style="opacity: 1; transform: translateY(0);">
-            <div class="section-header">
-                <h2>پروژه‌های من</h2>
-                <p>گزیده‌ای از فعالیت‌های اخیر</p>
-            </div>
-
             <div class="bento-grid">
                 <!-- Project 1: Football Analysis -->
                 <a href="https://artarazaz.github.io/football-data-analysis/document.html"
@@ -78,6 +66,40 @@
                         </div>
                     </div>
                 </a>
+
+                <!-- Project 2: N-Queens -->
+                <a href="https://github.com/Artarazaz/the-question-of-8-Queens" class="bento-card project-banner"
+                    target="_blank">
+                    <div class="project-banner-image">
+                        ♛
+                    </div>
+                    <div class="project-banner-content">
+                        <span class="badge secondary" style="margin-bottom: 8px;">تحقیقات مستقل</span>
+                        <h3 class="card-title">الگوریتم DNA برای حل N-Queens</h3>
+                        <p class="card-desc">الگوریتم جدید الهام‌گرفته از DNA برای حل مسئله N وزیر با عملکرد بهتر از
+                            الگوریتم ژنتیک.</p>
+                        <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color); font-weight: 500;">
+                            مشاهده در GitHub ←
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 3: LLM Personality -->
+                <a href="#" class="bento-card project-banner">
+                    <div class="project-banner-image">
+                        🤖
+                    </div>
+                    <div class="project-banner-content">
+                        <span class="badge"
+                            style="margin-bottom: 8px; background: rgba(255,193,7,0.2); color: #ffc107;">پروژه
+                            پایانی</span>
+                        <h3 class="card-title">شبیه‌سازی شخصیت با LLM</h3>
+                        <p class="card-desc">Fine-tuning مدل‌های زبانی بزرگ برای تولید متن با الگوهای شخصیتی خاص.</p>
+                        <div style="margin-top: 16px; font-size: 14px; color: var(--text-tertiary); font-weight: 500;">
+                            در حال توسعه...
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
     </div>
@@ -85,29 +107,6 @@
     <div class="footer">
         <p>© ۱۴۰۴ علی‌اصغر رزازپور</p>
     </div>
-
-    <script>
-        // Copying the animation script from document.html for consistency/smoothness
-        document.addEventListener('DOMContentLoaded', function () {
-            const sections = document.querySelectorAll('.section');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            sections.forEach(section => {
-                // Ensure initial state mimics CSS defaults if JS runs
-                // classes handles visibility transition
-                observer.observe(section);
-            });
-        });
-    </script>
 </body>
 
 </html>
