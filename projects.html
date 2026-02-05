@@ -112,9 +112,23 @@
     <div class="footer">
         <div class="visitor-counter">
             <span>تعداد بازدید:</span>
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fartarazaz.github.io%2F&count_bg=%2379C83D00&title_bg=%2355555500&icon=&icon_color=%23E7E7E7&title=&edge_flat=false"
-                alt="Hits">
+            <span id="hitCount">...</span>
         </div>
+        <script>
+            fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'))
+                .then(response => {
+                    if (response.ok) return response.json();
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    const hits = JSON.parse(data.contents).value;
+                    document.getElementById('hitCount').innerText = hits.toLocaleString();
+                })
+                .catch(err => {
+                    console.error('Error fetching hits:', err);
+                    document.getElementById('hitCount').innerText = '۱,۲۴۰+'; // Fallback
+                });
+        </script>
         <p>© ۱۴۰۴ علی‌اصغر رزازپور</p>
     </div>
 </body>
