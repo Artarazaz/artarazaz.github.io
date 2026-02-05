@@ -3,6 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تحلیل پیشرفته فوتبال</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2602,19 +2611,30 @@ print(summary_df.to_string(index=False))
             <span id="hitCount">...</span>
         </div>
         <script>
-            fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'))
-                .then(response => {
-                    if (response.ok) return response.json();
-                    throw new Error('Network response was not ok.');
-                })
-                .then(data => {
-                    const hits = JSON.parse(data.contents).value;
-                    document.getElementById('hitCount').innerText = hits.toLocaleString();
-                })
-                .catch(err => {
-                    console.error('Error fetching hits:', err);
-                    document.getElementById('hitCount').innerText = '۱,۲۴۰+'; // Fallback
-                });
+            async function updateCounter() {
+                const countElement = document.getElementById('hitCount');
+                try {
+                    const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
+                    if (localRes.ok) {
+                        const localData = await localRes.json();
+                        countElement.innerText = localData.total_visits.toLocaleString();
+                        return;
+                    }
+                } catch (e) { }
+
+                try {
+                    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
+                    if (res.ok) {
+                        const data = await res.json();
+                        const hits = JSON.parse(data.contents).value;
+                        countElement.innerText = hits.toLocaleString();
+                        return;
+                    }
+                } catch (err) { }
+
+                countElement.innerText = '۱,۲۴۰+';
+            }
+            updateCounter();
         </script>
         <p>© ۱۴۰۴ علی‌اصغر رزازپور</p>
     </div>
