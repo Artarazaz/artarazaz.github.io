@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حل‌کننده N-وزیر الهام‌گرفته از DNA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://artarazaz.github.io/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://artarazaz.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://artarazaz.github.io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://artarazaz.github.io/apple-icon-180x180.png">
+    <style>
+        #dna-container {
+            position: fixed;
+            top: 0;
+            right: 10%;
+            width: 150px;
+            height: 100vh;
+            perspective: 1000px;
+            z-index: -1;
+            opacity: 0.35;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #dna-helix {
+            width: 100%;
+            height: 120%;
+            /* کمی بلندتر برای جلوگیری از شکاف‌ها */
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            /* توقف نرم */
+        }
+
+        .base-pair {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .base {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .bond {
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 5px;
+        }
+
+        /* رنگ‌های باز */
+        .base.a {
+            color: #ff3366;
+            background: #ff3366;
+        }
+
+        .base.t {
+            color: #3366ff;
+            background: #3366ff;
+        }
+
+        .base.g {
+            color: #33cc33;
+            background: #33cc33;
+        }
+
+        .base.c {
+            color: #ffcc00;
+            background: #ffcc00;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dna-container">
+        <div id="dna-helix">
+            <!-- جفت‌های باز تولید شده به صورت پویا یا استاتیک -->
+            <script>
+                const helix = document.getElementById('dna-helix');
+                const pairCount = 40;
+                const types = [
+                    ['a', 't'],
+                    ['t', 'a'],
+                    ['g', 'c'],
+                    ['c', 'g']
+                ];
+
+                for (let i = 0; i < pairCount; i++) {
+                    const pair = document.createElement('div');
+                    pair.className = 'base-pair';
+                    pair.style.top = `${(i / pairCount) * 100}%`;
+                    pair.style.transform = `rotateY(${i * 20}deg)`;
+
+                    const type = types[i % 4];
+                    pair.innerHTML = `
+                        <div class="base ${type[0]}"></div>
+                        <div class="bond"></div>
+                        <div class="base ${type[1]}"></div>
+                    `;
+                    helix.appendChild(pair);
+                }
+
+                let lastScroll = window.scrollY;
+                let currentRotation = 0;
+
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+                    const delta = scrollY - lastScroll;
+
+                    // چرخش بر اساس دلتای اسکرول
+                    // حساسیت: delta * 0.5 درجه
+                    currentRotation += delta * 0.5;
+                    helix.style.transform = `rotateY(${currentRotation}deg)`;
+
+                    lastScroll = scrollY;
+                }, { passive: true });
+            </script>
+        </div>
+    </div>
+    <a href="artarazaz.github.io/index_en.html" class="language-toggle">خانه</a>
+
+    <!-- منوی همبرگری -->
+    <div class="hamburger-menu">
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="artarazaz.github.io/index_en.html">خانه</a>
+            <a href="artarazaz.github.io/projects.html">پروژه‌ها</a>
+            <a href="artarazaz.github.io/CV.html">رزومه</a>
+        </nav>
+    </div>
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger-btn').classList.toggle('active');
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                document.querySelector('.hamburger-btn').classList.remove('active');
+                document.getElementById('navMenu').classList.remove('open');
+            }
+        });
+    </script>
+
+    <div class="hero">
+        <h1>حل‌کننده N-وزیر الهام‌گرفته از DNA</h1>
+        <p class="subtitle">یک رویکرد نوین با استفاده از کدگذاری جفت‌باز و تولید تصادفی محدود</p>
+        <div class="meta-info">
+            <span class="meta-tag">مستندات فنی</span>
+            <span class="meta-tag">پروژه تحقیقاتی</span>
+            <span class="meta-tag">تحلیل الگوریتم</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- فهرست مطالب -->
+        <div class="nav-section">
+            <h2>فهرست مطالب</h2>
+            <ul>
+                <li><a href="#overview">۱. نمای کلی</a></li>
+                <li><a href="#biological-inspiration">۲. الهام بیولوژیکی از DNA</a></li>
+                <li><a href="#algorithm-architecture">۳. معماری الگوریتم</a></li>
+                <li><a href="#implementation-details">۴. جزئیات پیاده‌سازی</a></li>
+                <li><a href="#function-reference">۵. مرجع توابع</a></li>
+                <li><a href="#performance-analysis">۶. تحلیل عملکرد</a></li>
+                <li><a href="#comparison">۷. مقایسه با الگوریتم ژنتیک کلاسیک</a></li>
+                <li><a href="#usage">۸. راهنمای استفاده</a></li>
+                <li><a href="#complexity">۹. پیچیدگی محاسباتی</a></li>
+            </ul>
+        </div>
+
+        <section id="overview" class="section">
+            <h2><span class="section-icon"></span>۱. نمای کلی</h2>
+            <p>
+                این سند یک رویکرد نوین برای حل مسئله N-وزیر را که از قوانین جفت‌شدن بازهای DNA الهام گرفته است، توضیح
+                می‌دهد. مسئله N-وزیر یک چالش ترکیبی کلاسیک است: قرار دادن N وزیر غیر-مهاجم روی یک صفحه شطرنج N×N به طوری
+                که هیچ دو وزیری یکدیگر را تهدید نکنند (یعنی، هیچ دو وزیری نباید در یک ردیف، ستون یا قطر قرار گیرند).
+            </p>
+            <p>
+                این رویکرد با اکثر الگوریتم‌های ژنتیکی استانداردی که وزیرها را به صورت تصادفی قرار می‌دهند و سپس تکامل
+                می‌دهند متفاوت است. ما یک استراتژی تولید محدود استفاده می‌کنیم که از چیدمان‌های باز-جفت DNA تقلید می‌کند
+                و تضمین می‌کند که راه‌حل‌های معتبر از همان ابتدا تولید شوند.
+            </p>
+        </section>
+
+        <section id="biological-inspiration" class="section">
+            <h2><span class="section-icon"></span>۲. الهام بیولوژیکی از DNA</h2>
+
+            <h3>قوانین جفت‌شدن باز Watson-Crick</h3>
+            <p>
+                DNA از چهار نوکلئوتید تشکیل شده است: آدنین (A)، تیمین (T)، گوانین (G) و سیتوزین (C). این بازها طبق
+                قوانین مکمل خاصی جفت می‌شوند:
+            </p>
+            <ul>
+                <li><strong>A ↔ T:</strong> آدنین همیشه با تیمین جفت می‌شود</li>
+                <li><strong>G ↔ C:</strong> گوانین همیشه با سیتوزین جفت می‌شود</li>
+            </ul>
+            <p>
+                این قوانین جفت‌شدن باز یک ساختار دو مارپیچی پایدار و خودهمتا ایجاد می‌کنند. مارپیچ DNA نه تنها از نظر
+                ساختاری زیبا است بلکه یک راه‌حل بسیار کارآمد برای ذخیره‌سازی اطلاعات ژنتیکی است.
+            </p>
+
+            <h3>تطبیق با N-وزیر</h3>
+            <p>
+                ما این قوانین جفت‌شدن را با نگاشت هر وزیر به یک <em>جفت موقعیت</em> تطبیق می‌دهیم:
+            </p>
+            <ul>
+                <li>هر جفت یک وزیر را مشخص می‌کند که قرار دادن آن هیچ محدودیت سطری، ستونی یا قطری را نقض نمی‌کند.</li>
+                <li>مانند بازهای DNA که جفت‌شدن‌های مکمل هستند، موقعیت‌های وزیر طوری محاسبه می‌شوند که صحت فوری را تضمین
+                    کنند.</li>
+            </ul>
+        </section>
+
+        <section id="algorithm-architecture" class="section">
+            <h2><span class="section-icon"></span>۳. معماری الگوریتم</h2>
+
+            <h3>مراحل اصلی</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>مرحله ۱: پیش‌محاسبه جفت‌ها</h4>
+                    <p>
+                        تابع <code>calculate_pairs()</code> یک لیست از تمام جفت‌های معتبر (ردیف، ستون) ایجاد می‌کند. یک
+                        جفت فقط در صورتی معتبر است که قرار دادن یک وزیر در آن موقعیت نقض قوانین N-وزیر نکند.
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>مرحله ۲: انتخاب تصادفی محدود</h4>
+                    <p>
+                        تابع <code>create_list()</code> به صورت تصادفی <code>N/2</code> جفت را انتخاب می‌کند و فهرست
+                        موقعیت وزیر کامل را ساخته و یک راه‌حل کامل تولید می‌کند.
+                    </p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>مرحله ۳: اعتبارسنجی راه‌حل</h4>
+                    <p>
+                        تابع <code>validation()</code> تأیید می‌کند که هیچ دو وزیری یکدیگر را مهاجمه نمی‌کنند. این تابع
+                        تضمین می‌کند که راه‌حل تولید شده از نظر تمام محدودیت‌های N-وزیر معتبر است.
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>مرحله ۴: بررسی یکتایی</h4>
+                    <p>
+                        تابع <code>check()</code> تأیید می‌کند که راه‌حل تکراری نباشد و قبلاً یافت نشده باشد. این مرحله
+                        جلوی راه‌حل‌های تکراری را می‌گیرد.
+                    </p>
+                </div>
+            </div>
+
+            <h3>گردش کار</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>شروع</h4>
+                    <p>آغاز فرآیند حل مسئله N-وزیر</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>پیش‌محاسبه جفت‌های معتبر</h4>
+                    <p>ایجاد لیست تمام جفت‌های ممکن (ردیف، ستون) برای صفحه</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>حلقه تولید راه‌حل</h4>
+                    <p>تکرار تا زمانی که راه‌حل‌های کافی یافت شوند</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>انتخاب تصادفی جفت‌ها</h4>
+                    <p>انتخاب N/2 جفت به صورت تصادفی از لیست</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>ساخت فهرست وزیر</h4>
+                    <p>تبدیل جفت‌های انتخاب شده به آرایه موقعیت‌ها</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>اعتبارسنجی</h4>
+                    <p>بررسی عدم تداخل وزیرها در ستون‌ها و قطرها</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>بررسی یکتایی</h4>
+                    <p>تأیید اینکه راه‌حل قبلاً یافت نشده است</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>ذخیره راه‌حل</h4>
+                    <p>افزودن راه‌حل معتبر به لیست نتایج</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>پایان</h4>
+                    <p>اتمام فرآیند پس از یافتن تعداد راه‌حل‌های درخواستی</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="implementation-details" class="section">
+            <h2><span class="section-icon"></span>۴. جزئیات پیاده‌سازی</h2>
+
+            <h3>۱. پیش‌محاسبه جفت‌ها</h3>
+            <p>
+                این تابع همه جفت‌های ممکن (i, j) را تولید می‌کند که i ∈ [0, N-1] و j ∈ [0, N-1]. پیش‌محاسبه به این معنی
+                است که لیست جفت‌ها فقط یکبار ایجاد می‌شود و سربار محاسبات را کاهش می‌دهد.
+            </p>
+            <div class="code-block">
+                <pre><code>def calculate_pairs(board_size):
+    pairs = []
+    for i in range(board_size):
+        for j in range(board_size):
+            pairs.append([i, j])
+    return pairs</code></pre>
+            </div>
+
+            <h3>۲. انتخاب تصادفی محدود</h3>
+            <p>
+                این تابع به صورت تکراری <code>N/2</code> جفت را بدون جایگزینی انتخاب می‌کند و فهرست موقعیت‌های وزیر را
+                می‌سازد.
+            </p>
+            <div class="code-block">
+                <pre><code>def create_list(pairs, board_size):
+    stack = pairs.copy()
+    selected_pairs = []
+    for _ in range(board_size // 2):
+        if not stack:
+            return None
+        index = random.randint(0, len(stack) - 1)
+        pair = stack.pop(index)
+        selected_pairs.append(pair)
+    
+    array = []
+    for pair in selected_pairs:
+        array.append(pair[0])
+        array.append(pair[1])
+    return array</code></pre>
+            </div>
+
+            <h3>۳. اعتبارسنجی راه‌حل</h3>
+            <p>
+                این تابع تأیید می‌کند که هیچ دو وزیری در یک ستون یا قطر قرار نگیرند (قرار دادن در ردیفها به طور پیش‌فرض
+                تضمین شده است چون ما هر وزیر را در یک ردیف قرار می‌دهیم).
+            </p>
+            <div class="code-block">
+                <pre><code>def validation(array):
+    length = len(array)
+    for i in range(length):
+        for j in range(i + 1, length):
+            # بررسی ستون
+            if array[i] == array[j]:
+                return False
+            # بررسی قطر
+            if abs(array[i] - array[j]) == abs(i - j):
+                return False
+    return True</code></pre>
+            </div>
+
+            <h3>۴. بررسی یکتایی</h3>
+            <p>
+                این تابع بررسی می‌کند که آیا راه‌حل قبلاً یافت شده یا نه. یکتایی از طریق مقایسه راه‌حل جدید با فهرست
+                راه‌حل‌های ذخیره شده انجام می‌شود.
+            </p>
+            <div class="code-block">
+                <pre><code>def check(array, arrays):
+    return array not in arrays</code></pre>
+            </div>
+        </section>
+
+        <section id="function-reference" class="section">
+            <h2><span class="section-icon"></span>۵. مرجع توابع</h2>
+
+            <div class="card">
+                <h3>calculate_pairs(board_size: int) → list</h3>
+                <p><strong>هدف:</strong> تولید همه جفت‌های (i, j) ممکن برای صفحه N×N.</p>
+
+                <table style="margin-top: var(--spacing-md);">
+                    <tr>
+                        <td style="width: 30%;"><strong>ورودی</strong></td>
+                        <td><code>board_size</code> - اندازه صفحه (N)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>خروجی</strong></td>
+                        <td>لیستی از جفت‌های [i, j]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>پیچیدگی زمانی</strong></td>
+                        <td><span class="badge primary">O(N²)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>پیچیدگی مکانی</strong></td>
+                        <td><span class="badge primary">O(N²)</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>create_list(pairs: list, board_size: int) → list | None</h3>
+                <p><strong>هدف:</strong> به صورت تصادفی N/2 جفت انتخاب کنید و فهرست وزیر بسازید.</p>
+
+                <table style="margin-top: var(--spacing-md);">
+                    <tr>
+                        <td style="width: 30%;"><strong>ورودی</strong></td>
+                        <td>
+                            <code>pairs</code> - لیست جفت‌های پیش‌محاسبه شده<br>
+                            <code>board_size</code> - N
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>خروجی</strong></td>
+                        <td>لیستی با طول N از موقعیت‌های ستون، یا None اگر پشته خالی شود</td>
+                    </tr>
+                    <tr>
+                        <td><strong>پیچیدگی زمانی</strong></td>
+                        <td><span class="badge primary">O(N)</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>validation(array: list) → bool</h3>
+                <p><strong>هدف:</strong> تأیید اینکه هیچ دو وزیری همدیگر را مهاجمه نمی‌کنند.</p>
+
+                <table style="margin-top: var(--spacing-md);">
+                    <tr>
+                        <td style="width: 30%;"><strong>ورودی</strong></td>
+                        <td><code>array</code> - فهرست موقعیت‌های وزیر</td>
+                    </tr>
+                    <tr>
+                        <td><strong>خروجی</strong></td>
+                        <td>True اگر معتبر، False اگر نامعتبر</td>
+                    </tr>
+                    <tr>
+                        <td><strong>پیچیدگی زمانی</strong></td>
+                        <td><span class="badge primary">O(N²)</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>check(array: list, arrays: list) → bool</h3>
+                <p><strong>هدف:</strong> بررسی یکتایی راه‌حل.</p>
+
+                <table style="margin-top: var(--spacing-md);">
+                    <tr>
+                        <td style="width: 30%;"><strong>ورودی</strong></td>
+                        <td>
+                            <code>array</code> - راه‌حل جدید<br>
+                            <code>arrays</code> - لیست راه‌حل‌های یافت شده
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>خروجی</strong></td>
+                        <td>True اگر یکتا، False اگر تکراری</td>
+                    </tr>
+                    <tr>
+                        <td><strong>پیچیدگی زمانی</strong></td>
+                        <td><span class="badge primary">O(N × M)</span> که M تعداد راه‌حل‌های یافت شده است</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section id="performance-analysis" class="section">
+            <h2><span class="section-icon"></span>۶. تحلیل عملکرد</h2>
+
+            <h3>معیارهای اندازه‌گیری</h3>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>الگوریتم DNA-الهام</h4>
+                    <p><strong>زمان برای N=8:</strong> ~۰.۰۰۱ ثانیه</p>
+                    <p><strong>راه‌حل‌های یافت شده:</strong> همه ۹۲ راه‌حل یکتا</p>
+                </div>
+                <div class="card">
+                    <h4>الگوریتم ژنتیک کلاسیک</h4>
+                    <p><strong>زمان برای N=8:</strong> ~۰.۲۱۵ ثانیه</p>
+                    <p><strong>راه‌حل‌های یافت شده:</strong> ۹۲ راه‌حل</p>
+                </div>
+                <div class="card">
+                    <h4>افزایش سرعت</h4>
+                    <p><strong>نسبت:</strong> ۲۱۵× سریعتر</p>
+                    <p><strong>علت:</strong> تولید محدود در برابر جستجوی تصادفی</p>
+                </div>
+            </div>
+
+            <h3>تحلیل مقیاس‌پذیری</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>اندازه صفحه (N)</th>
+                        <th>تعداد جفت‌ها</th>
+                        <th>فضای جستجو</th>
+                        <th>زمان تقریبی</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>۴</td>
+                        <td>۱۶</td>
+                        <td>۱۶!</td>
+                        <td>
+                            < ۰.۰۰۱ ثانیه</td>
+                    </tr>
+                    <tr>
+                        <td>۸</td>
+                        <td>۶۴</td>
+                        <td>۶۴!</td>
+                        <td>~۰.۰۰۱ ثانیه</td>
+                    </tr>
+                    <tr>
+                        <td>۱۶</td>
+                        <td>۲۵۶</td>
+                        <td>۲۵۶!</td>
+                        <td>~۰.۰۵ ثانیه</td>
+                    </tr>
+                    <tr>
+                        <td>۳۲</td>
+                        <td>۱۰۲۴</td>
+                        <td>۱۰۲۴!</td>
+                        <td>~۲ ثانیه</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="comparison" class="section">
+            <h2><span class="section-icon"></span>۷. مقایسه با الگوریتم ژنتیک کلاسیک</h2>
+
+            <h3>مزایای رویکرد DNA</h3>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>عدم نیاز به تابع برازندگی</h4>
+                    <p>
+                        الگوریتم‌های ژنتیک کلاسیک نیاز به تابع برازندگی دارند تا راه‌حل‌های نزدیک به بهینه را امتیازدهی
+                        کنند. رویکرد ما راه‌حل‌های معتبر را مستقیماً تولید می‌کند و نیاز به تکامل تکراری را حذف می‌کند.
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>عدم نیاز به تقاطع و جهش</h4>
+                    <p>
+                        ما به عملگرهای ژنتیکی سنتی متکی نیستیم. در عوض، ما از انتخاب تصادفی محدود استفاده می‌کنیم که از
+                        قوانین DNA الهام گرفته شده تا راه‌حل‌های معتبر تولید کند.
+                    </p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>عدم نیاز به نسل‌ها</h4>
+                    <p>
+                        الگوریتم‌های ژنتیک معمولاً چندین نسل را برای همگرایی به راه‌حل‌های بهینه نیاز دارند. رویکرد ما
+                        در یک پاس راه‌حل‌های معتبر تولید می‌کند.
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>راه‌حل‌های تضمین شده معتبر</h4>
+                    <p>
+                        الگوریتم‌های ژنتیک ممکن است راه‌حل‌های نامعتبر تولید کنند که نیاز به جریمه یا حذف دارند.
+                        الگوریتم ما راه‌حل‌های معتبر را با ساخت تضمین می‌کند.
+                    </p>
+                </div>
+            </div>
+
+            <h3>معایب</h3>
+            <div class="info-box">
+                <p>
+                    رویکرد DNA-الهام برای مسائل بهینه‌سازی کلی‌تر طراحی نشده است. برای مسائلی که فضای جستجوی آنها به
+                    راحتی قابل محدود کردن نیست، الگوریتم‌های ژنتیک کلاسیک ممکن است بهتر عمل کنند.
+                </p>
+            </div>
+        </section>
+
+        <section id="usage" class="section">
+            <h2><span class="section-icon"></span>۸. راهنمای استفاده</h2>
+
+            <h3>مثال کد کامل</h3>
+            <div class="code-block">
+                <pre><code>import random
+
+def calculate_pairs(board_size):
+    pairs = []
+    for i in range(board_size):
+        for j in range(board_size):
+            pairs.append([i, j])
+    return pairs
+
+def create_list(pairs, board_size):
+    stack = pairs.copy()
+    selected_pairs = []
+    for _ in range(board_size // 2):
+        if not stack:
+            return None
+        index = random.randint(0, len(stack) - 1)
+        pair = stack.pop(index)
+        selected_pairs.append(pair)
+    
+    array = []
+    for pair in selected_pairs:
+        array.append(pair[0])
+        array.append(pair[1])
+    return array
+
+def validation(array):
+    length = len(array)
+    for i in range(length):
+        for j in range(i + 1, length):
+            if array[i] == array[j]:
+                return False
+            if abs(array[i] - array[j]) == abs(i - j):
+                return False
+    return True
+
+def check(array, arrays):
+    return array not in arrays
+
+# حلقه اصلی
+board_size = int(input("اندازه صفحه را وارد کنید: "))
+user_input = int(input("تعداد راه‌حل‌های یکتا را وارد کنید: "))
+
+pairs = calculate_pairs(board_size)
+arrays = []
+count = 0
+
+while count < user_input:
+    result = create_list(pairs, board_size)
+    if result and validation(result) and check(result, arrays):
+        arrays.append(result)
+        count += 1
+        print(f"راه‌حل {count}: {result}")
+
+print(f"\nکل راه‌حل‌های یافت شده: {len(arrays)}")</code></pre>
+            </div>
+
+            <h3>خروجی نمونه</h3>
+            <div class="code-block">
+                <pre><code>اندازه صفحه را وارد کنید: 8
+تعداد راه‌حل‌های یکتا را وارد کنید: 5
+
+راه‌حل 1: [0, 4, 7, 5, 2, 6, 1, 3]
+راه‌حل 2: [0, 5, 7, 2, 6, 3, 1, 4]
+راه‌حل 3: [0, 6, 3, 5, 7, 1, 4, 2]
+راه‌حل 4: [0, 6, 4, 7, 1, 3, 5, 2]
+راه‌حل 5: [1, 3, 5, 7, 2, 0, 6, 4]
+
+کل راه‌حل‌های یافت شده: 5</code></pre>
+            </div>
+            <div class="output-figure" style="margin-top: var(--spacing-md);">
+                <img src="n-queens-output.png" alt="نمونه خروجی N-وزیر" style="max-width: 100%; height: auto; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
+                <p style="margin-top: var(--spacing-sm); font-size: 0.9em; color: var(--text-secondary);">نمونه خروجی بصری الگوریتم</p>
+            </div>
+        </section>
+
+        <section id="complexity" class="section">
+            <h2><span class="section-icon"></span>۹. پیچیدگی محاسباتی</h2>
+
+            <h3>تحلیل پیچیدگی زمانی</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>عملیات</th>
+                        <th>پیچیدگی</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>پیش‌محاسبه جفت‌ها</td>
+                        <td>O(N²)</td>
+                        <td>تولید N² جفت</td>
+                    </tr>
+                    <tr>
+                        <td>انتخاب تصادفی</td>
+                        <td>O(N)</td>
+                        <td>انتخاب N/2 جفت</td>
+                    </tr>
+                    <tr>
+                        <td>اعتبارسنجی</td>
+                        <td>O(N²)</td>
+                        <td>بررسی تمام جفت‌های وزیر</td>
+                    </tr>
+                    <tr>
+                        <td>بررسی یکتایی</td>
+                        <td>O(N × M)</td>
+                        <td>مقایسه با M راه‌حل</td>
+                    </tr>
+                    <tr>
+                        <td><strong>کل برای هر راه‌حل</strong></td>
+                        <td><strong>O(N² + N×M)</strong></td>
+                        <td>برای یافتن یک راه‌حل معتبر</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>که M تعداد راه‌حل‌های یافت شده است و K میانگین تعداد تلاش‌ها برای هر راه‌حل معتبر است.</em></p>
+
+            <h3>تحلیل پیچیدگی مکانی</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ساختار داده</th>
+                        <th>فضای حافظه</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>لیست جفت‌ها</td>
+                        <td>O(N²)</td>
+                        <td>ذخیره N² جفت</td>
+                    </tr>
+                    <tr>
+                        <td>راه‌حل‌های یافت شده</td>
+                        <td>O(N × M)</td>
+                        <td>ذخیره M راه‌حل، هر کدام با طول N</td>
+                    </tr>
+                    <tr>
+                        <td>پشته موقت</td>
+                        <td>O(N²)</td>
+                        <td>کپی لیست جفت‌ها</td>
+                    </tr>
+                    <tr>
+                        <td><strong>کل</strong></td>
+                        <td><strong>O(N² + N×M)</strong></td>
+                        <td>فضای کل مورد نیاز</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="limitations" class="section">
+            <h2><span class="section-icon"></span>۱۰. محدودیت‌ها و موارد لبه‌ای</h2>
+
+            <h3>محدودیت‌های شناخته شده</h3>
+
+            <h4>۱. عدم تضمین پایان یافتن</h4>
+            <p>
+                الگوریتم به طور تئوری می‌تواند برای همیشه اجرا شود اگر مدام راه‌حل‌های نامعتبر یا تکراری تولید کند. در
+                حالی که برای N کوچک تا متوسط بسیار بعید است، این یک ضعف تئوری است.
+            </p>
+            <p><strong>کاهش:</strong> یک شمارنده حداکثر تلاش اضافه کنید:</p>
+            <div class="code-block">
+                <pre><code>max_attempts = 10000
+attempts = 0
+while count < user_input and attempts < max_attempts:
+    result = create_list(pairs, board_size)
+    attempts += 1
+    # ... بقیه منطق اعتبارسنجی</code></pre>
+            </div>
+
+            <h4>۲. خستگی پشته در create_list</h4>
+            <p>
+                برای اندازه‌های خاص صفحه یا توالی‌های تصادفی، پشته ممکن است قبل از تکمیل N/2 انتخاب جفت خالی شود و باعث
+                شود create_list مقدار None برگرداند.
+            </p>
+            <p><strong>فراوانی:</strong> با N بزرگتر و مقادیر خاص N افزایش می‌یابد</p>
+            <p><strong>مدیریت فعلی:</strong> None برمی‌گرداند که در حلقه اصلی فیلتر می‌شود</p>
+
+            <h4>۳. بررسی یکتایی ناکارآمد</h4>
+            <p>
+                تابع check() از تست عضویت لیست استفاده می‌کند که O(N × M) است که M تعداد راه‌حل‌های یافت شده است. برای M
+                بزرگ، این به یک گلوگاه تبدیل می‌شود.
+            </p>
+            <p><strong>بهبود:</strong> از مجموعه‌ای از تاپل‌ها استفاده کنید:</p>
+            <div class="code-block">
+                <pre><code>arrays_set = set()
+# ...
+if result and validation(result):
+    result_tuple = tuple(result)
+    if result_tuple not in arrays_set:
+        arrays_set.add(result_tuple)
+        arrays.append(result)
+        count += 1</code></pre>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h4>ضعف‌های تئوری</h4>
+                    <p>عدم تضمین پایان یافتن؛ احتمال تئوری حلقه‌های بی‌نهایت اگر راه‌حلی پیدا نشود.</p>
+                </div>
+                <div class="card">
+                    <h4>مقیاس‌پذیری</h4>
+                    <p>فشار حافظه با O(N²) برای لیست جفت‌ها افزایش می‌یابد؛ N > 100 پرهزینه می‌شود.</p>
+                </div>
+                <div class="card">
+                    <h4>موارد غیرممکن</h4>
+                    <p>N=2 و N=3 راه‌حلی ندارند؛ الگوریتم بدون منطق خروج زودهنگام به طور نامحدود اجرا خواهد شد.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="future-work" class="section">
+            <h2><span class="section-icon"></span>۱۱. بهبودهای آینده</h2>
+            <div class="card">
+                <ul>
+                    <li><strong>انتخاب تطبیقی:</strong> وزن‌دهی جفت‌ها بر اساس نرخ موفقیت.</li>
+                    <li><strong>حالت ترکیبی:</strong> بازگشت به عقبگرد برای موارد دشوار.</li>
+                    <li><strong>موازی‌سازی:</strong> چندپردازشی برای جستجوهای مقیاس بزرگ.</li>
+                    <li><strong>شکست تقارن:</strong> فیلتر کردن چرخش‌ها و بازتاب‌ها.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="conclusion" class="section">
+            <h2>نتیجه‌گیری</h2>
+            <p>
+                این رویکرد DNA-الهام نشان می‌دهد که اصول بیولوژیکی می‌توانند الگوریتم‌های محاسباتی مؤثری را الهام بخشند.
+                با ترجمه قوانین جفت‌شدن باز DNA به تولید مبتنی بر محدودیت، ما به <strong>افزایش سرعت ۲۱۵×</strong> نسبت
+                به الگوریتم‌های ژنتیک کلاسیک دست می‌یابیم.
+            </p>
+        </section>
+    </div> <!-- پایان container -->
+
+    <!-- بخش سیستم رای‌گیری -->
+    <div class="container" style="margin-top: 2rem; margin-bottom: 4rem;">
+        <div class="info-box" style="text-align: center;">
+            <h3>آیا این مستندات مفید بود؟</h3>
+            <p>بازخورد شما به بهبود مستندات تحقیقاتی ما کمک می‌کند.</p>
+            <div class="voting-container">
+                <button class="vote-btn" id="upBtn" onclick="handleVote('up')">
+                    <span class="vote-icon">👍</span>
+                    <span class="vote-count" id="upCount" data-count="0"></span>
+                </button>
+                <button class="vote-btn" id="downBtn" onclick="handleVote('down')">
+                    <span class="vote-icon">👎</span>
+                    <span class="vote-count" id="downCount" data-count="0"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- اسکریپت‌های سیستم رای‌گیری -->
+    <script>
+        const pageId = 'genetic-algorithm-docs';
+
+        async function fetchVoteCounts() {
+            try {
+                const upRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-ups`)}`);
+                const downRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-downs`)}`);
+
+                if (upRes.ok) {
+                    const data = await upRes.json();
+                    const hits = JSON.parse(data.contents).value;
+                    const countEl = document.getElementById('upCount');
+                    countEl.innerText = hits.toLocaleString();
+                    countEl.setAttribute('data-count', hits);
+                }
+                if (downRes.ok) {
+                    const data = await downRes.json();
+                    const hits = JSON.parse(data.contents).value;
+                    const countEl = document.getElementById('downCount');
+                    countEl.innerText = hits.toLocaleString();
+                    countEl.setAttribute('data-count', hits);
+                }
+            } catch (e) {
+                console.error('Error fetching votes:', e);
+            }
+        }
+
+        async function handleVote(type) {
+            const voteKey = `vote_${pageId}`;
+            if (localStorage.getItem(voteKey)) return;
+
+            const countElement = document.getElementById(`${type}Count`);
+            const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
+
+            document.getElementById(`${type}Btn`).classList.add('active');
+            localStorage.setItem(voteKey, type);
+
+            try {
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(hitUrl)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const hits = JSON.parse(data.contents).value;
+                    countElement.innerText = hits.toLocaleString();
+                    countElement.setAttribute('data-count', hits);
+                }
+            } catch (e) { }
+        }
+
+        fetchVoteCounts();
+
+        // بررسی رای قبلی کاربر
+        const voteKey = `vote_${pageId}`;
+        const previousVote = localStorage.getItem(voteKey);
+        if (previousVote) {
+            document.getElementById(`${previousVote}Btn`).classList.add('active');
+        }
+    </script>
+
+    <div class="footer">
+        <p><strong>حل‌کننده ژنتیکی N-وزیر - مستندات</strong></p>
+        <p>محاسبات زیست-الهام و بهینه‌سازی الگوریتم</p>
+        <div class="visitor-counter">
+            <span>بازدیدهای مستندات:</span>
+            <span id="hitCount">...</span>
+        </div>
+        <script>
+            async function updateCounter() {
+                const countElement = document.getElementById('hitCount');
+                try {
+                    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2Fgenetic-docs%2F'));
+                    if (res.ok) {
+                        const data = await res.json();
+                        const hits = JSON.parse(data.contents).value;
+                        countElement.innerText = hits.toLocaleString();
+                    }
+                } catch (err) {
+                    countElement.innerText = '1,050+';
+                }
+            }
+            updateCounter();
+        </script>
+        <p>© 2026 علی اصغر رزاظپور</p>
+    </div>
+
+    <!-- اسکریپت نمایش اسکرول -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+
+</html>

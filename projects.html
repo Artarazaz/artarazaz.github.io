@@ -118,6 +118,76 @@
         </section>
     </div>
 
+    <!-- Voting System -->
+    <div class="voting-container">
+        <button id="likeBtn" class="vote-btn" onclick="handleVote('like')">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
+            </svg>
+            <span>پسندیدم</span>
+            <span id="likeCount" class="vote-count"></span>
+        </button>
+        <button id="dislikeBtn" class="vote-btn" onclick="handleVote('dislike')">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.37-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z" />
+            </svg>
+            <span>نپسندیدم</span>
+            <span id="dislikeCount" class="vote-count"></span>
+        </button>
+    </div>
+
+    <script>
+        const pageId = 'projects';
+
+        async function fetchVoteCounts() {
+            const types = ['like', 'dislike'];
+            for (const type of types) {
+                const countElement = document.getElementById(`${type}Count`);
+                const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
+                try {
+                    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(hitUrl)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        const hits = JSON.parse(data.contents).value;
+                        countElement.innerText = hits > 0 ? hits.toLocaleString('fa-IR') : '';
+                        countElement.setAttribute('data-count', hits);
+                    }
+                } catch (e) { }
+            }
+
+            const voted = localStorage.getItem(`vote_${pageId}`);
+            if (voted) {
+                document.getElementById(`${voted}Btn`).classList.add('active');
+            }
+        }
+
+        async function handleVote(type) {
+            const voteKey = `vote_${pageId}`;
+            if (localStorage.getItem(voteKey)) return;
+
+            const countElement = document.getElementById(`${type}Count`);
+            const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
+
+            // Visual feedback
+            document.getElementById(`${type}Btn`).classList.add('active');
+            localStorage.setItem(voteKey, type);
+
+            try {
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(hitUrl)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const hits = JSON.parse(data.contents).value;
+                    countElement.innerText = hits.toLocaleString('fa-IR');
+                    countElement.setAttribute('data-count', hits);
+                }
+            } catch (e) { }
+        }
+
+        fetchVoteCounts();
+    </script>
+
     <div class="footer">
         <div class="visitor-counter">
             <span>تعداد بازدید:</span>
