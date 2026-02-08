@@ -28,7 +28,7 @@ def fetch_visitor_count(property_id):
     return total_users
 
 if __name__ == "__main__":
-    PROPERTY_ID = os.getenv("GA4_PROPERTY_ID")
+    PROPERTY_ID = os.getenv("GA_PROPERTY_ID")
     if not PROPERTY_ID:
         print("Error: GA4_PROPERTY_ID not set.")
         exit(1)
