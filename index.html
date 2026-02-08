@@ -9,7 +9,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-X7M374HDEV');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,34 +24,116 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://artarazaz.github.io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://artarazaz.github.io/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://artarazaz.github.io/apple-icon-180x180.png">
+
+    <style>
+        /* Fade effect for second banner */
+        .project-banner:nth-child(2) {
+            position: relative;
+        }
+
+        .project-banner:nth-child(2)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--bg-primary));
+            pointer-events: none;
+        }
+
+        /* View all button */
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            margin: 32px auto 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .view-all-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        /* Make banners stack vertically */
+        .projects-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 
 <body>
-    <a href="index_en.html" class="language-toggle">En</a>
+    <!-- Fixed Navigation System -->
+    <!-- AFTER (درست) -->
+    <div class="top-nav-container">
+        <div class="nav-right">
+            <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0"
+                aria-expanded="false" aria-controls="navMenu">
+                <div class="hamburger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="hamburger-panel">
+                    <nav class="nav-menu" id="navMenu">
+                        <a href="https://artarazaz.github.io/index.html" class="active">خانه</a>
+                        <a href="https://artarazaz.github.io/projects.html">پروژه‌ها</a>
+                        <a href="https://artarazaz.github.io/CV.html">رزومه</a>
+                    </nav>
+                </div>
+            </div>
+            <a href="index.html" class="nav-btn home-btn">🏠</a>
 
-    <!-- Hamburger Menu -->
-    <div class="hamburger-menu">
-        <button class="hamburger-btn" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-menu" id="navMenu">
-            <a href="https://artarazaz.github.io/index.html" class="active">خانه</a>
-            <a href="https://artarazaz.github.io/projects.html">پروژه‌ها</a>
-            <a href="https://artarazaz.github.io/CV.html">رزومه</a>
-        </nav>
+        </div>
+        <div class="nav-left">
+            <a href="index_en.html" class="nav-btn language-toggle">En</a>
+        </div>
     </div>
+
     <script>
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const hamburgerIcon = hamburgerMenu.querySelector('.hamburger-icon');
+
         function toggleMenu() {
-            document.querySelector('.hamburger-btn').classList.toggle('active');
-            document.getElementById('navMenu').classList.toggle('open');
+            const isOpen = hamburgerMenu.classList.toggle('open');
+            hamburgerMenu.setAttribute('aria-expanded', String(isOpen));
         }
+        hamburgerIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
         // Close menu when clicking outside
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.hamburger-menu')) {
-                document.querySelector('.hamburger-btn').classList.remove('active');
-                document.getElementById('navMenu').classList.remove('open');
+                hamburgerMenu.classList.remove('open');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target === hamburgerMenu) {
+                e.preventDefault();
+                toggleMenu();
             }
         });
     </script>
@@ -70,14 +151,15 @@
     <div class="container">
         <section class="section visible" style="opacity: 1; transform: translateY(0);">
             <div class="section-header">
-                <h2>پروژه‌های من</h2>
-                <p>گزیده‌ای از فعالیت‌های اخیر</p>
+                <h2>پروژه‌های برجسته</h2>
+                <p>آخرین فعالیت‌های من</p>
             </div>
 
-            <div class="bento-grid">
+            <!-- Projects stacked vertically -->
+            <div class="projects-stack">
                 <!-- Project 1: Football Analysis -->
                 <a href="https://artarazaz.github.io/football-data-analysis/document.html"
-                    class="bento-card large project-banner">
+                    class="bento-card project-banner">
                     <div class="project-banner-image">
                         ⚽
                     </div>
@@ -85,18 +167,41 @@
                         <span class="badge primary" style="margin-bottom: 8px;">مباحث ویژه ۲</span>
                         <h3 class="card-title">تحلیل و پیش‌بینی مسابقات فوتبال</h3>
                         <p class="card-desc">پروژه جامع تحلیل داده‌های ۲۰ سال اخیر فوتبال اروپا با استفاده از
-                            الگوریتم‌های Random Forest و XGBoost برای پیش‌بینی نتایج.</p>
+                            الگوریتم‌های Random Forest و XGBoost برای پیش‌بینی نتایج مسابقات.</p>
                         <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color); font-weight: 500;">
                             مشاهده جزئیات پروژه ←
                         </div>
                     </div>
+                </a>
+
+                <!-- Project 2: N-Queens DNA Algorithm (with fade) -->
+                <a href="https://artarazaz.github.io/N-Qeens/genetic_fa.html" class="bento-card project-banner">
+                    <div class="project-banner-image">
+                        ♛
+                    </div>
+                    <div class="project-banner-content">
+                        <span class="badge secondary" style="margin-bottom: 8px;">تحقیقات مستقل</span>
+                        <h3 class="card-title">الگوریتم DNA برای حل N-Queens</h3>
+                        <p class="card-desc">الگوریتم نوآورانه الهام‌گرفته از DNA برای حل مسئله N وزیر با عملکرد ۲۱۵
+                            برابر بهتر از الگوریتم ژنتیک کلاسیک و کاربردهای واقعی در بهینه‌سازی.</p>
+                        <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color); font-weight: 500;">
+                            مشاهده مستندات فنی ←
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- View All Projects Button -->
+            <div class="btn-container">
+                <a href="https://artarazaz.github.io/projects.html" class="view-all-btn">
+                    <span>مشاهده همه پروژه‌ها</span>
+                    <span>→</span>
                 </a>
             </div>
         </section>
     </div>
 
     <script>
-        // Copying the animation script from document.html for consistency/smoothness
         document.addEventListener('DOMContentLoaded', function () {
             const sections = document.querySelectorAll('.section');
 
@@ -111,23 +216,20 @@
             });
 
             sections.forEach(section => {
-                // Ensure initial state mimics CSS defaults if JS runs
-                // classes handles visibility transition
                 observer.observe(section);
             });
         });
     </script>
+
     <div class="footer">
         <div class="visitor-counter">
             <span>تعداد بازدید:</span>
             <span id="hitCount">...</span>
         </div>
         <script>
-            // Try fetching from GA4 sync file first, then fallback to HITS
             async function updateCounter() {
                 const countElement = document.getElementById('hitCount');
                 try {
-                    // 1. Try local GA4 sync data
                     const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
                     if (localRes.ok) {
                         const localData = await localRes.json();
@@ -139,7 +241,6 @@
                 }
 
                 try {
-                    // 2. Fallback to HITS API via CORS proxy
                     const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
                     if (res.ok) {
                         const data = await res.json();
@@ -151,7 +252,6 @@
                     console.error('Error fetching hits:', err);
                 }
 
-                // 3. Last fallback
                 countElement.innerText = '۱,۲۴۰+';
             }
             updateCounter();

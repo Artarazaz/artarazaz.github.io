@@ -31,27 +31,43 @@
     <a href="https://artarazaz.github.io/index.html" class="language-toggle">Home</a>
 
     <!-- Hamburger Menu -->
-    <div class="hamburger-menu">
-        <button class="hamburger-btn" onclick="toggleMenu()">
+    <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0"
+        aria-expanded="false" aria-controls="navMenu">
+        <div class="hamburger-icon" aria-hidden="true">
             <span></span>
             <span></span>
             <span></span>
-        </button>
-        <nav class="nav-menu" id="navMenu">
-            <a href="https://artarazaz.github.io/index.html">Home</a>
-            <a href="https://artarazaz.github.io/projects.html">Projects</a>
-            <a href="https://artarazaz.github.io/CV.html" class="active">CV</a>
-        </nav>
+        </div>
+        <div class="hamburger-panel">
+            <nav class="nav-menu" id="navMenu">
+                <a href="https://artarazaz.github.io/index.html">Home</a>
+                <a href="https://artarazaz.github.io/projects.html">Projects</a>
+                <a href="https://artarazaz.github.io/CV.html" class="active">CV</a>
+            </nav>
+        </div>
     </div>
     <script>
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const hamburgerIcon = hamburgerMenu.querySelector('.hamburger-icon');
+
         function toggleMenu() {
-            document.querySelector('.hamburger-btn').classList.toggle('active');
-            document.getElementById('navMenu').classList.toggle('open');
+            const isOpen = hamburgerMenu.classList.toggle('open');
+            hamburgerMenu.setAttribute('aria-expanded', String(isOpen));
         }
+        hamburgerIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.hamburger-menu')) {
-                document.querySelector('.hamburger-btn').classList.remove('active');
-                document.getElementById('navMenu').classList.remove('open');
+                hamburgerMenu.classList.remove('open');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target === hamburgerMenu) {
+                e.preventDefault();
+                toggleMenu();
             }
         });
     </script>
