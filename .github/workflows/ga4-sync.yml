@@ -23,8 +23,11 @@ jobs:
       - name: Fetch GA4 Data
         env:
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
-          GA4_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}   # ← با 4، چون کد پایتون از GA4_PROPERTY_ID استفاده می‌کنه
         run: |
+          echo "DEBUG ENV CHECK:"
+          echo "GA4_PROPERTY_ID is: ${GA4_PROPERTY_ID:-EMPTY}"
+          echo "Length: ${#GA4_PROPERTY_ID}"
           echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS=service-account.json
           python scripts/fetch_ga.py
