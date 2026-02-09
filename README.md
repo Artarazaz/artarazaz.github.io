@@ -10,3 +10,4 @@ https://artarazaz.github.io
 - HTML
 - CSS
 - JavaScript
+- Python
