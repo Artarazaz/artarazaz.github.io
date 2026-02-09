@@ -28,22 +28,28 @@
 </head>
 
 <body>
-    <a href="https://artarazaz.github.io/index.html" class="language-toggle">Home</a>
-
-    <!-- Hamburger Menu -->
-    <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0"
-        aria-expanded="false" aria-controls="navMenu">
-        <div class="hamburger-icon" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- Fixed Navigation System -->
+    <div class="top-nav-container">
+        <div class="nav-right">
+            <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0"
+                aria-expanded="false" aria-controls="navMenu">
+                <div class="hamburger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="hamburger-panel">
+                    <nav class="nav-menu" id="navMenu">
+                        <a href="index_en.html">Home</a>
+                        <a href="projects.html">Projects</a>
+                        <a href="CV.html" class="active">CV</a>
+                    </nav>
+                </div>
+            </div>
+            <a href="index_en.html" class="nav-btn home-btn">🏠</a>
         </div>
-        <div class="hamburger-panel">
-            <nav class="nav-menu" id="navMenu">
-                <a href="https://artarazaz.github.io/index.html">Home</a>
-                <a href="https://artarazaz.github.io/projects.html">Projects</a>
-                <a href="https://artarazaz.github.io/CV.html" class="active">CV</a>
-            </nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-btn language-toggle">Fa</a>
         </div>
     </div>
     <script>

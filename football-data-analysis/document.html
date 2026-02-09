@@ -20,7 +20,7 @@
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="../stylesheet.css">
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="https://artarazaz.github.io/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="https://artarazaz.github.io/favicon-32x32.png">
@@ -29,30 +29,51 @@
 </head>
 
 <body>
-    <a href="https://artarazaz.github.io/index.html" class="language-toggle">خانه</a>
-
-    <!-- Hamburger Menu -->
-    <div class="hamburger-menu">
-        <button class="hamburger-btn" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-menu" id="navMenu">
-            <a href="https://artarazaz.github.io/index.html">خانه</a>
-            <a href="https://artarazaz.github.io/projects.html">پروژه‌ها</a>
-            <a href="https://artarazaz.github.io/CV.html">رزومه</a>
-        </nav>
+    <div class="top-nav-container">
+        <div class="nav-right">
+            <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0"
+                aria-expanded="false" aria-controls="navMenu">
+                <div class="hamburger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="hamburger-panel">
+                    <nav class="nav-menu" id="navMenu">
+                        <a href="../index.html">خانه</a>
+                        <a href="../projects.html">پروژه‌ها</a>
+                        <a href="../CV.html">رزومه</a>
+                    </nav>
+                </div>
+            </div>
+            <a href="../index.html" class="nav-btn home-btn">🏠</a>
+        </div>
+        <div class="nav-left">
+            <a href="../index_en.html" class="nav-btn language-toggle">En</a>
+        </div>
     </div>
     <script>
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const hamburgerIcon = hamburgerMenu.querySelector('.hamburger-icon');
+
         function toggleMenu() {
-            document.querySelector('.hamburger-btn').classList.toggle('active');
-            document.getElementById('navMenu').classList.toggle('open');
+            const isOpen = hamburgerMenu.classList.toggle('open');
+            hamburgerMenu.setAttribute('aria-expanded', String(isOpen));
         }
+        hamburgerIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.hamburger-menu')) {
-                document.querySelector('.hamburger-btn').classList.remove('active');
-                document.getElementById('navMenu').classList.remove('open');
+                hamburgerMenu.classList.remove('open');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target === hamburgerMenu) {
+                e.preventDefault();
+                toggleMenu();
             }
         });
     </script>
