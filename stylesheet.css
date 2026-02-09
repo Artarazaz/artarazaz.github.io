@@ -251,9 +251,9 @@ a:hover {
 
 .hamburger-panel {
     position: absolute;
-    left: 0;
-    right: -6px;
-    top: 0;
+    left: auto;
+    right: -1px;
+    top: -1px;
     bottom: auto;
     width: 220px;
     padding: 56px 0 8px;
@@ -262,7 +262,7 @@ a:hover {
     -webkit-backdrop-filter: blur(30px) saturate(180%);
     transform: translateZ(0) scale(0);
     -webkit-transform: translateZ(0) scale(0);
-    transform-origin: left 48px;
+    transform-origin: right 48px;
     border-radius: var(--radius-lg);
     border-top-left-radius: var(--radius-md);
     border-top-right-radius: var(--radius-md);
@@ -334,6 +334,10 @@ a:hover {
     font-size: 15px;
     font-weight: 500;
     transition: all 0.2s ease;
+    text-align: left;
+}
+
+html[dir="rtl"] .nav-menu a {
     text-align: right;
 }
 
@@ -576,7 +580,7 @@ a:hover {
 
     .hamburger-panel {
         width: 200px;
-        transform-origin: left 44px;
+        transform-origin: right 44px;
         padding-top: 52px;
     }
 
@@ -585,8 +589,8 @@ a:hover {
     }
 }
 
-.hamburger-menu.open+.home-btn,
-.hamburger-menu.open~.home-btn {
+html:not([dir="rtl"]) .hamburger-menu.open+.home-btn,
+html:not([dir="rtl"]) .hamburger-menu.open~.home-btn {
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
