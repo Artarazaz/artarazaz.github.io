@@ -197,6 +197,8 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     pointer-events: none;
+    direction: ltr !important;
+    /* Force LTR for consistent positioning */
 }
 
 .nav-left,
@@ -206,6 +208,7 @@ a:hover {
     align-items: center;
     pointer-events: auto;
     position: relative;
+    direction: ltr !important;
 }
 
 .nav-right .home-btn {
@@ -287,7 +290,7 @@ a:hover {
 
 [dir="rtl"] .hamburger-panel {
     left: auto;
-    right: 0;
+    right: -1px;
     transform-origin: right 48px;
     border-radius: var(--radius-lg);
     border-top-left-radius: var(--radius-md);
@@ -1538,10 +1541,7 @@ code {
 }
 
 /* RTL Fix: Keep language toggle on visual left */
-[dir="rtl"] .language-toggle {
-    left: 24px;
-    right: auto;
-}
+/* Removed as it's now handled by the forced LTR top-nav-container */
 
 /* =========================================
    CV Page Styles
