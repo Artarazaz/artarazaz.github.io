@@ -172,6 +172,8 @@
                         <a href="../index_en.html">Home</a>
                         <a href="../projects_en.html">Projects</a>
                         <a href="../CV.html">CV</a>
+                        <a href="../aboutme_en.html">About Me</a>
+                        <a href="../contact_me_en.html">Contact Me</a>
                     </nav>
                 </div>
             </div>
@@ -943,30 +945,49 @@ if result and validation(result):
     </script>
 
     <div class="footer">
-        <p><strong>Genetic N-Queens Solver - Documentation</strong></p>
-        <p>Bio-Inspired Computing & Algorithm Optimization</p>
-        <div class="visitor-counter">
-            <span>Documentation Views:</span>
-            <span id="hitCount">...</span>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../index_en.html" class="footer-link">Home</a>
+                <a href="../projects_en.html" class="footer-link">Projects</a>
+                <a href="../CV.html" class="footer-link">CV</a>
+                <a href="../aboutme_en.html" class="footer-link">About Me</a>
+                <a href="../contact_me_en.html" class="footer-link">Contact Me</a>
+            </div>
+
+            <div class="visitor-counter">
+                <span>Total Visits:</span>
+                <span id="hitCount">...</span>
+            </div>
+
+            <p class="copyright">© 2026 Ali-Asghar Razazpour. All rights reserved.</p>
         </div>
-        <script>
-            async function updateCounter() {
-                const countElement = document.getElementById('hitCount');
-                try {
-                    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2Fgenetic-docs%2F'));
-                    if (res.ok) {
-                        const data = await res.json();
-                        const hits = JSON.parse(data.contents).value;
-                        countElement.innerText = hits.toLocaleString();
-                    }
-                } catch (err) {
-                    countElement.innerText = '1,050+';
-                }
-            }
-            updateCounter();
-        </script>
-        <p>© 2026 Ali Asghar Razazpour</p>
     </div>
+    <script>
+        async function updateCounter() {
+            const countElement = document.getElementById('hitCount');
+            try {
+                const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
+                if (localRes.ok) {
+                    const localData = await localRes.json();
+                    countElement.innerText = localData.total_visits.toLocaleString();
+                    return;
+                }
+            } catch (e) { }
+
+            try {
+                const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
+                if (res.ok) {
+                    const data = await res.json();
+                    const hits = JSON.parse(data.contents).value;
+                    countElement.innerText = hits.toLocaleString();
+                    return;
+                }
+            } catch (err) { }
+
+            countElement.innerText = '1,240+';
+        }
+        updateCounter();
+    </script>
 
     <!-- Scroll Reveal Script -->
     <script>

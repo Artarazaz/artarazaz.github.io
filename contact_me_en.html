@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X7M374HDEV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-X7M374HDEV');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me | Ali-Asghar Razazpour</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://artarazaz.github.io/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://artarazaz.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://artarazaz.github.io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://artarazaz.github.io/apple-icon-180x180.png">
+</head>
+
+<body>
+    <!-- Fixed Navigation System -->
+    <div class="top-nav-container">
+        <div class="nav-left">
+            <a href="contact_me_fa.html" class="nav-btn language-toggle">Fa</a>
+        </div>
+        <div class="nav-right">
+            <a href="index_en.html" class="nav-btn home-btn">Home</a>
+            <div class="hamburger-menu nav-btn" id="hamburgerMenu" role="button" tabindex="0" aria-expanded="false"
+                aria-controls="navMenu">
+                <div class="hamburger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="hamburger-panel">
+                    <nav class="nav-menu" id="navMenu">
+                        <a href="index_en.html">Home</a>
+                        <a href="projects_en.html">Projects</a>
+                        <a href="CV.html">Resume</a>
+                        <a href="aboutme_en.html">About Me</a>
+                        <a href="contact_me_en.html" class="active">Contact Me</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero hero-mini">
+        <h1>Contact Me</h1>
+        <p class="subtitle">For collaborations, questions, or just to chat about tech</p>
+    </div>
+
+    <div class="container">
+        <section class="section visible" style="opacity: 1; transform: translateY(0);">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>I would love to hear from you</p>
+            </div>
+
+            <div class="bento-grid grid-2">
+                <!-- Email -->
+                <a href="mailto:Ali_razaz@icloud.com" class="bento-card"
+                    style="text-align: center; text-decoration: none;">
+                    <span class="card-icon">📧</span>
+                    <h3 class="card-title">Email</h3>
+                    <p class="card-desc">Ali_razaz@icloud.com</p>
+                    <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color);">Send Message &rarr;
+                    </div>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/artarazaz/" target="_blank" class="bento-card"
+                    style="text-align: center; text-decoration: none;">
+                    <span class="card-icon">💼</span>
+                    <h3 class="card-title">LinkedIn</h3>
+                    <p class="card-desc">View professional profile and work history</p>
+                    <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color);">View Profile &rarr;
+                    </div>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/Artarazaz" target="_blank" class="bento-card"
+                    style="text-align: center; text-decoration: none;">
+                    <span class="card-icon">💻</span>
+                    <h3 class="card-title">GitHub</h3>
+                    <p class="card-desc">View source code and open source projects</p>
+                    <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color);">View Repositories &rarr;
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index_en.html" class="footer-link">Home</a>
+                <a href="projects_en.html" class="footer-link">Projects</a>
+                <a href="CV.html" class="footer-link">Resume</a>
+                <a href="aboutme_en.html" class="footer-link">About Me</a>
+                <a href="contact_me_en.html" class="footer-link">Contact Me</a>
+            </div>
+
+            <div class="visitor-counter">
+                <span>Total Visits:</span>
+                <span id="hitCount">...</span>
+            </div>
+
+            <p class="copyright">© 2026 Ali-Asghar Razazpour. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Hamburger Menu Logic
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const hamburgerIcon = hamburgerMenu.querySelector('.hamburger-icon');
+
+        function toggleMenu() {
+            const isOpen = hamburgerMenu.classList.toggle('open');
+            hamburgerMenu.setAttribute('aria-expanded', String(isOpen));
+        }
+
+        hamburgerIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.hamburger-menu')) {
+                hamburgerMenu.classList.remove('open');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Visitor Counter
+        async function updateCounter() {
+            const countElement = document.getElementById('hitCount');
+            try {
+                const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
+                if (localRes.ok) {
+                    const localData = await localRes.json();
+                    countElement.innerText = localData.total_visits.toLocaleString('en-US');
+                    return;
+                }
+            } catch (e) { console.log('Local data not found', e); }
+
+            try {
+                const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
+                if (res.ok) {
+                    const data = await res.json();
+                    const hits = JSON.parse(data.contents).value;
+                    countElement.innerText = hits.toLocaleString('en-US');
+                    return;
+                }
+            } catch (err) { console.error(err); }
+            countElement.innerText = '1,240+';
+        }
+        updateCounter();
+
+        // Scroll Animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+
+</html>

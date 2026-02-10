@@ -47,6 +47,8 @@
                         <a href="index.html">خانه</a>
                         <a href="projects.html" class="active">پروژه‌ها</a>
                         <a href="CV_fa.html">رزومه</a>
+                        <a href="aboutme_fa.html">درباره من</a>
+                        <a href="contact_me_fa.html">تماس با من</a>
                     </nav>
                 </div>
             </div>
@@ -121,7 +123,8 @@
                 </a>
 
                 <!-- Project 3: LLM Personality -->
-                <a href="#" class="bento-card project-banner">
+                <a href="https://artarazaz.github.io/fine-tuned-mdel/fine_tune_model_documentation_fa.html"
+                    class="bento-card project-banner">
                     <div class="project-banner-image">
                         🤖
                     </div>
@@ -131,8 +134,8 @@
                             پایانی</span>
                         <h3 class="card-title">شبیه‌سازی شخصیت با LLM</h3>
                         <p class="card-desc">Fine-tuning مدل‌های زبانی بزرگ برای تولید متن با الگوهای شخصیتی خاص.</p>
-                        <div style="margin-top: 16px; font-size: 14px; color: var(--text-tertiary); font-weight: 500;">
-                            در حال توسعه...
+                        <div style="margin-top: 16px; font-size: 14px; color: var(--accent-color); font-weight: 500;">
+                            مشاهده جزئیات پروژه ←
                         </div>
                     </div>
                 </a>
@@ -211,37 +214,22 @@
     </script>
 
     <div class="footer">
-        <div class="visitor-counter">
-            <span>تعداد بازدید:</span>
-            <span id="hitCount">...</span>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">خانه</a>
+                <a href="projects.html" class="footer-link">پروژه‌ها</a>
+                <a href="CV_fa.html" class="footer-link">رزومه</a>
+                <a href="aboutme_fa.html" class="footer-link">درباره من</a>
+                <a href="contact_me_fa.html" class="footer-link">تماس با من</a>
+            </div>
+
+            <div class="visitor-counter">
+                <span>بازدید کل:</span>
+                <span id="hitCount">...</span>
+            </div>
+
+            <p class="copyright">© ۱۴۰۴ علی‌اصغر رزازپور. تمامی حقوق محفوظ است.</p>
         </div>
-        <script>
-            async function updateCounter() {
-                const countElement = document.getElementById('hitCount');
-                try {
-                    const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
-                    if (localRes.ok) {
-                        const localData = await localRes.json();
-                        countElement.innerText = localData.total_visits.toLocaleString();
-                        return;
-                    }
-                } catch (e) { }
-
-                try {
-                    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
-                    if (res.ok) {
-                        const data = await res.json();
-                        const hits = JSON.parse(data.contents).value;
-                        countElement.innerText = hits.toLocaleString();
-                        return;
-                    }
-                } catch (err) { }
-
-                countElement.innerText = '۱,۲۴۰+';
-            }
-            updateCounter();
-        </script>
-        <p>© ۱۴۰۴ علی‌اصغر رزازپور</p>
     </div>
 </body>
 

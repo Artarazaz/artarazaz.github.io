@@ -47,6 +47,8 @@
                         <a href="index.html">خانه</a>
                         <a href="projects.html">پروژه‌ها</a>
                         <a href="CV_fa.html" class="active">رزومه</a>
+                        <a href="aboutme_fa.html">درباره من</a>
+                        <a href="contact_me_fa.html">تماس با من</a>
                     </nav>
                 </div>
             </div>
@@ -231,38 +233,49 @@
             fetchVoteCounts();
         </script>
         <div class="footer">
-            <div class="visitor-counter">
-                <span>تعداد بازدید:</span>
-                <span id="hitCount">...</span>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">خانه</a>
+                    <a href="projects.html" class="footer-link">پروژه‌ها</a>
+                    <a href="CV_fa.html" class="footer-link">رزومه</a>
+                    <a href="aboutme_fa.html" class="footer-link">درباره من</a>
+                    <a href="contact_me_fa.html" class="footer-link">تماس با من</a>
+                </div>
+
+                <div class="visitor-counter">
+                    <span>بازدید کل:</span>
+                    <span id="hitCount">...</span>
+                </div>
+
+                <p class="copyright">© ۱۴۰۴ علی‌اصغر رزازپور. تمامی حقوق محفوظ است.</p>
             </div>
-            <script>
-                async function updateCounter() {
-                    const countElement = document.getElementById('hitCount');
-                    try {
-                        const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
-                        if (localRes.ok) {
-                            const localData = await localRes.json();
-                            countElement.innerText = localData.total_visits.toLocaleString('fa-IR');
-                            return;
-                        }
-                    } catch (e) { }
-
-                    try {
-                        const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
-                        if (res.ok) {
-                            const data = await res.json();
-                            const hits = JSON.parse(data.contents).value;
-                            countElement.innerText = hits.toLocaleString('fa-IR');
-                            return;
-                        }
-                    } catch (err) { }
-
-                    countElement.innerText = '۱,۲۴۰+';
-                }
-                updateCounter();
-            </script>
-            <p>© ۱۴۰۴ علی اصغر رزازپور</p>
         </div>
+        <script>
+            async function updateCounter() {
+                const countElement = document.getElementById('hitCount');
+                try {
+                    const localRes = await fetch('https://artarazaz.github.io/visitor-data.json');
+                    if (localRes.ok) {
+                        const localData = await localRes.json();
+                        countElement.innerText = localData.total_visits.toLocaleString('fa-IR');
+                        return;
+                    }
+                } catch (e) { }
+
+                try {
+                    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https%3A%2F%2Fartarazaz.github.io%2F'));
+                    if (res.ok) {
+                        const data = await res.json();
+                        const hits = JSON.parse(data.contents).value;
+                        countElement.innerText = hits.toLocaleString('fa-IR');
+                        return;
+                    }
+                } catch (err) { }
+
+                countElement.innerText = '۱,۲۴۰+';
+            }
+            updateCounter();
+        </script>
     </div>
 </body>
 
