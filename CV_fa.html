@@ -217,23 +217,15 @@
                 const btnElement = document.getElementById(`${type}Btn`);
                 const textElement = btnElement.querySelector('.vote-text');
 
-                // If user has already voted, show the count and hide text
-                if (voted) {
+                // If user has voted for THIS type
+                if (voted === type) {
                     textElement.style.display = 'none';
                     countElement.style.display = 'inline';
-                    if (voted === type) {
-                        btnElement.classList.add('active');
-                    }
-                } else {
-                    // Otherwise show text and hide count
-                    textElement.style.display = 'inline';
-                    countElement.style.display = 'none';
-                }
+                    btnElement.classList.add('active');
 
-                const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
-                try {
-
-                    if (voted) {
+                    // Fetch count only for the voted type
+                    const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
+                    try {
                         const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(hitUrl)}`);
                         if (res.ok) {
                             const data = await res.json();
@@ -241,38 +233,48 @@
                             countElement.innerText = hits.toLocaleString('fa-IR');
                             countElement.setAttribute('data-count', hits);
                         }
-                    }
-                } catch (e) { }
+                    } catch (e) { }
+                } else {
+                    // Not voted or the other button
+                    textElement.style.display = 'inline';
+                    countElement.style.display = 'none';
+                    btnElement.classList.remove('active');
+                }
             }
         }
 
         async function handleVote(type) {
             const voteKey = `vote_${pageId}`;
+            const currentVote = localStorage.getItem(voteKey);
 
-            // Allow multiple votes per session? User said "It doesn't matter". 
-            // But visually updating needs to happen.
+            // If already voted for this type, do nothing
+            if (currentVote === type) return;
 
-            const countElement = document.getElementById(`${type}Count`);
-            const btnElement = document.getElementById(`${type}Btn`);
-            const textElement = btnElement.querySelector('.vote-text');
-
-            // Optimistically update UI
-            btnElement.classList.add('active');
-            textElement.style.display = 'none';
-            countElement.style.display = 'inline';
-
-            // Mark as voted in local storage so it persists on reload
-            localStorage.setItem(voteKey, type);
-
+            // 1. Deactivate the OTHER type
             const otherType = type === 'like' ? 'dislike' : 'like';
             const otherBtn = document.getElementById(`${otherType}Btn`);
             const otherText = otherBtn.querySelector('.vote-text');
             const otherCount = document.getElementById(`${otherType}Count`);
 
-            otherText.style.display = 'none';
-            otherCount.style.display = 'inline';
+            otherBtn.classList.remove('active');
+            otherText.style.display = 'inline';
+            otherCount.style.display = 'none';
+            otherCount.innerText = '';
 
-            // Fetch/Increment this specific vote
+            // 2. Activate THIS type
+            const btnElement = document.getElementById(`${type}Btn`);
+            const textElement = btnElement.querySelector('.vote-text');
+            const countElement = document.getElementById(`${type}Count`);
+
+            btnElement.classList.add('active');
+            textElement.style.display = 'none';
+            countElement.style.display = 'inline';
+            countElement.innerText = '...';
+
+            // 3. Save to storage
+            localStorage.setItem(voteKey, type);
+
+            // 4. Fetch count
             const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=https://artarazaz.github.io/${pageId}-${type}s`;
             try {
                 const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(hitUrl)}`);
@@ -281,8 +283,13 @@
                     const hits = JSON.parse(data.contents).value;
                     countElement.innerText = hits.toLocaleString('fa-IR');
                     countElement.setAttribute('data-count', hits);
+                } else {
+                    // Fail gracefully
+                    countElement.innerText = '۱';
                 }
-            } catch (e) { }
+            } catch (e) {
+                countElement.innerText = '۱';
+            }
         }
 
         fetchVoteCounts();
