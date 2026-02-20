@@ -1858,6 +1858,7 @@ html:not([dir="rtl"]) .timeline-item {
     overflow: hidden;
     position: relative;
     z-index: 1;
+    transform: translateZ(0);
 }
 
 .video-bg {
@@ -1871,8 +1872,9 @@ html:not([dir="rtl"]) .timeline-item {
     opacity: 0.6;
     mix-blend-mode: overlay;
     pointer-events: none;
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: inherit;
+    /* Force clipping in Safari */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .video-overlay {
